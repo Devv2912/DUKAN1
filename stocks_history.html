@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meridukan Header</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7fa;
+      display: flex;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .header {
+      background-color: #ffffff;
+      height: 80px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2b6cb0;
+      margin-right: 30px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 9999px;
+      background-color: white;
+      color: #111;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #f1f3f4;
+    }
+
+    .login-btn {
+      background-color: #38a169;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background-color: #2f855a;
+    }
+
+  </style>
+</head>
+<body>
+
+
+
+  <!-- Header -->
+  <div class="header">
+    <div class="left-section">
+      
+      <div class="brand">MeriDukan</div>
+      <div class="nav-buttons">
+        <button>🏠 Home</button>
+        <button>About</button>
+        <button>Services</button>
+        <button>Contact</button>
+      </div>
+    </div>
+    <button class="login-btn">Login</button>
+  </div>
+
+</body>
+</html>

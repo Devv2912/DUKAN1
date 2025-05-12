@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meridukan Header</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7fa;
+      display: flex;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 250px;
+        background-color: #248998;
+        color: #000000;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        transition: transform 0.3s ease;
+        transform: translateX(0);
+        padding-top: 100px; /* just space below header */
+        padding-left: 16px;
+        padding-right: 16px;
+        box-sizing: border-box;
+    }
+
+    .sidebar.hidden {
+        transform: translateX(-250px);
+    }
+
+    .sidebar a {
+        display: block;
+        padding: 12px 16px;
+        margin: 8px 0;
+        color: white;
+        text-decoration: none;
+        background-color: transparent;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 18px;
+        width: 100%;
+        transition: background-color 0.2s ease-in-out;
+        text-align: left;
+        box-sizing: border-box;
+    }
+
+    .sidebar a:hover {
+        background-color: #444;
+    }
+
+    /* Header */
+    .header {
+      background-color: #ffffff;
+      height: 80px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .hamburger {
+      cursor: pointer;
+      margin-right: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 25px;
+      height: 20px;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #333;
+      border-radius: 2px;
+    }
+
+    .header .top-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2b6cb0;
+      margin-right: 30px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 9999px;
+      background-color: white;
+      color: #111;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #f1f3f4;
+    }
+
+    .login-btn {
+      background-color: #38a169;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background-color: #2f855a;
+    }
+
+    /* Main Content (Placeholder) */
+    .main-content {
+      margin-top: 100px;
+      padding: 20px;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .panel-section {
+      display: none;
+    }
+    .panel-section.active {
+      display: block;
+    }
+
+    .blue-strip {
+      background-color: #004e7c;
+      color: white;
+      padding: 20px 30px;
+      text-align: center;
+      font-size: 14px;
+      max-width: 2000px;
+      margin: 1px;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 40px 30px;
+    }
+
+    .card {
+      background: white;
+      width: 200px;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card img {
+      width: 40px;
+      margin-bottom: 10px;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .card h2 {
+      font-size: 23px;
+      color: #004e7c;
+      margin-bottom: 10px;
+    }
+
+    .card h4 {
+      font-size: 11px;
+      color: #000000;
+    }
+
+    /* Form styling for 'Add New Supplier' card */
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container input,
+    .form-container button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .form-container button {
+      background-color: #38a169;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .form-container button:hover {
+      background-color: #2f855a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="#" onclick="showPanel('dashboard')">📢 Dashboard</a>
+    <a href="#" onclick="showPanel('stocks')">📦 Stocks</a>
+    <a href="#" onclick="showPanel('billing')">📝 Sales & Billing</a>
+    <a href="#" onclick="showPanel('expenses')">📊 Expenses & Profit</a>
+    <a href="#" onclick="showPanel('udhaar')">💰 UdhaarKhata</a>
+    <a href="#" onclick="showPanel('suppliers')">🚚 Suppliers</a>
+    <a href="#" onclick="showPanel('planning')">📆 Planning</a>
+    <a href="#" onclick="showPanel('settings')">⚙️ Settings</a>
+    <a href="#" onclick="showPanel('settings')"> 🔒 Logout</a>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="left-section">
+      <div class="hamburger" onclick="toggleSidebar()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="brand">MeriDukan</div>
+      <div class="nav-buttons">
+        <button>🏠Home</button>
+        <button>About</button>
+        <button>Services</button>
+        <button>Contact</button>
+      </div>
+    </div>
+    <button class="login-btn">Login</button>
+  </div>
+
+  <br/>
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <div id="dashboard" class="panel-section active">
+      <div class="blue-strip">
+          Now Serving Small Businesses Across India – Track, Manage & Grow with MeriDukaan
+      </div>
+      <h1>Dashboard Overview</h1>
+      <h2>Welcome to your store dashboard.</h2>
+    </div>
+
+    <div id="suppliers" class="panel-section">
+      <h1>Manage Suppliers</h1>
+      <div class="form-container">
+        <h2>Add New Supplier</h2>
+        <input type="text" placeholder="Supplier Name" id="supplierName" />
+        <input type="text" placeholder="Contact Info" id="supplierContact" />
+        <input type="text" placeholder="Address" id="supplierAddress" />
+        <button onclick="addSupplier()">Add Supplier</button>
+      </div>
+    </div>
+
+    <!-- Add more panels as needed -->
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('hidden');
+
+      const mainContent = document.querySelector('.main-content');
+      mainContent.style.marginLeft = sidebar.classList.contains('hidden') ? '0' : '250px';
+    }
+
+    // Function to show the selected panel
+    function showPanel(panelId) {
+      const panels = document.querySelectorAll('.panel-section');
+      panels.forEach(panel => {
+        panel.classList.remove('active');
+      });
+
+      const target = document.getElementById(panelId);
+      if (target) target.classList.add('active');
+    }
+
+    function addSupplier() {
+      const name = document.getElementById('supplierName').value;
+      const contact = document.getElementById('supplierContact').value;
+      const address = document.getElementById('supplierAddress').value;
+      if (name && contact && address) {
+        alert(`Supplier ${name} added successfully!`);
+        // You can add the supplier to a list or store data here
+      } else {
+        alert('Please fill in all fields!');
+      }
+    }
+  </script>
+
+</body>
+</html>

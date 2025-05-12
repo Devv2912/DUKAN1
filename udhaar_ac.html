@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Credit - MeriDukaan</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7fa;
+    }
+
+    .header {
+      background-color: #ffffff;
+      height: 80px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2b6cb0;
+      margin-right: 30px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 9999px;
+      background-color: white;
+      color: #111;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      line-height: 1;
+      margin-top: 4px;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #f1f3f4;
+    }
+
+    .login-btn {
+      background-color: #38a169;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 4px;
+    }
+
+    .login-btn:hover {
+      background-color: #2f855a;
+    }
+
+    h1 {
+      color: #2f855a;
+    }
+
+    form {
+      margin: 130px auto 0;
+      padding: 50px;
+      max-width: 1100px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      margin-bottom: 40px;
+      border-left: 6px solid #2f855a;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #2f855a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1a4d8f;
+    }
+
+    .panel {
+      margin-top: 100px;
+      padding: 30px 50px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .message {
+      margin-top: 20px;
+      color: green;
+    }
+
+    /* Dropdown styling */
+    #nameDropdown {
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      width: calc(100% - 100px);
+      max-height: 150px;
+      overflow-y: auto;
+      border-radius: 5px;
+      z-index: 2;
+      margin-top: -10px;
+      display: none;
+    }
+
+    #nameDropdown div {
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    #nameDropdown div:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="left-section">
+      <div class="brand">MeriDukan</div>
+      <div class="nav-buttons">
+        <button>🏠 Home</button>
+        <button>About</button>
+        <button>Services</button>
+        <button>Contact</button>
+      </div>
+    </div>
+    <button class="login-btn">Login</button>
+  </div>
+
+  <form id="creditForm">
+    <h1>Add Credit Record</h1>
+    <p>Record a new credit transaction for your customers.</p>
+
+    <label for="name">Customer Name</label>
+    <input type="text" id="name" autocomplete="off" required>
+    <div id="nameDropdown"></div>
+
+    <label for="amount">Amount (₹)</label>
+    <input type="number" id="amount" required>
+
+    <label for="date">Date</label>
+    <input type="date" id="date" required>
+
+    <label for="description">Description</label>
+    <textarea id="description" rows="3"></textarea>
+
+    <button type="submit">Add Credit</button>
+    <p class="message" id="successMsg"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById('creditForm');
+    const successMsg = document.getElementById('successMsg');
+    const nameInput = document.getElementById('name');
+    const nameDropdown = document.getElementById('nameDropdown');
+
+    // Get customer list
+    const customers = JSON.parse(localStorage.getItem('customers')) || [];
+
+    nameInput.addEventListener('input', () => {
+      const value = nameInput.value.toLowerCase();
+      nameDropdown.innerHTML = '';
+
+      if (!value) {
+        nameDropdown.style.display = 'none';
+        return;
+      }
+
+      const filtered = customers.filter(customer =>
+        customer.name.toLowerCase().includes(value)
+      );
+
+      if (filtered.length === 0) {
+        nameDropdown.style.display = 'none';
+        return;
+      }
+
+      filtered.forEach(customer => {
+        const div = document.createElement('div');
+        div.textContent = `${customer.name} (${customer.address})`;      
+        div.addEventListener('click', () => {
+          nameInput.value = customer.name;
+          nameDropdown.innerHTML = '';
+          nameDropdown.style.display = 'none';
+        });
+        nameDropdown.appendChild(div);
+      });
+
+      nameDropdown.style.display = 'block';
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!nameDropdown.contains(e.target) && e.target !== nameInput) {
+        nameDropdown.style.display = 'none';
+      }
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = nameInput.value.trim();
+      const amount = parseFloat(document.getElementById('amount').value);
+      const description = document.getElementById('description').value.trim();
+      const date = document.getElementById('date').value;
+
+      const creditEntry = { name, amount, description, date };
+
+      let creditRecords = JSON.parse(localStorage.getItem('creditRecords')) || [];
+      creditRecords.push(creditEntry);
+      localStorage.setItem('creditRecords', JSON.stringify(creditRecords));
+
+      successMsg.textContent = 'Credit record added successfully!';
+      form.reset();
+      setTimeout(() => successMsg.textContent = '', 3000);
+    });
+  </script>
+
+</body>
+</html>

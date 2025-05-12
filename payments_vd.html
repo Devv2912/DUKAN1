@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Debit - MeriDukaan</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7fa;
+    }
+
+    .header {
+      background-color: #ffffff;
+      height: 80px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2b6cb0;
+      margin-right: 30px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 9999px;
+      background-color: white;
+      color: #111;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      line-height: 1;
+      margin-top: 4px;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #f1f3f4;
+    }
+
+    .login-btn {
+      background-color: #38a169;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 4px;
+    }
+
+    .login-btn:hover {
+      background-color: #2f855a;
+    }
+
+    h1 {
+      color: #2b6cb0;
+      margin-bottom: 20px;
+    }
+
+    .panel {
+      margin-top: 130px;
+      padding: 30px 50px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+    }
+
+   .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 40px;
+      margin-bottom: 25px;
+    }
+
+    .filter-item {
+      flex: 1;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filter-item label {
+      font-size: 15px;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .filter-item input {
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    .debit-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: 8px;
+    }
+
+    .supplier-record {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      background-color: #fefefe;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border-left: 6px solid #e24444;
+    }
+
+    .supplier-record h2 {
+      margin: 0 0 10px 0;
+      font-size: 20px;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+
+    .debit-record {
+      margin-bottom: 15px;
+      padding: 10px;
+      background-color: #f7f7f7;
+      border-radius: 8px;
+    }
+
+    .debit-record p {
+      color: #555;
+      font-size: 14px;
+    }
+
+    .debit-record:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .debit-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .debit-details span {
+      color: #555;
+      font-size: 15px;
+    }
+
+    .total-debit {
+      text-align: right;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 0.5rem 0.75rem;
+      color: #2c3e50;
+      border-top: 1px solid #ccc;
+      margin-top: 0.5rem;
+    }
+
+    .date {
+      font-size: 14px;
+      color: #777;
+    }
+
+    .delete-icon {
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      fill: #e53e3e;
+      transition: transform 0.2s ease;
+    }
+
+    .delete-icon:hover {
+      transform: scale(1.2);
+      fill: #c53030;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="left-section">
+      <div class="brand">MeriDukan</div>
+      <div class="nav-buttons">
+        <button>🏠 Home</button>
+        <button>About</button>
+        <button>Services</button>
+        <button>Contact</button>
+      </div>
+    </div>
+    <button class="login-btn">Login</button>
+  </div>
+
+  <!-- Debit Panel -->
+  <div class="panel">
+    <h1>View Debit Records</h1>
+    <p style="margin-bottom: 25px;">Below are the debit records you have added for your customers.</p>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div class="filter-item">
+        <label for="searchName">Search by Name:</label>
+        <input type="text" id="searchName" placeholder="Enter customer name">
+      </div>
+      <div class="filter-item">
+        <label for="searchDate">Search by Date:</label>
+        <input type="date" id="searchDate">
+      </div>
+    </div>
+
+    <!-- Debit Records Container -->
+    <div id="debitRecordsContainer"></div>
+  </div>
+
+  <!-- Script -->
+<script>
+  window.onload = function () {
+    const debitRecordsContainer = document.getElementById('debitRecordsContainer');
+    const searchDate = document.getElementById('searchDate');
+    const searchName = document.getElementById('searchName');
+
+ const debitRecords = JSON.parse(localStorage.getItem('debitRecords')) || [];
+
+ 
+
+
+    function groupBySupplier(records) {
+      const grouped = {};
+      records.forEach((record) => {
+        const name = record.name;
+        if (!grouped[name]) {
+          grouped[name] = [];
+        }
+        grouped[name].push(record);
+      });
+      return grouped;
+    }
+
+    function displayRecords(records) {
+      debitRecordsContainer.innerHTML = '';
+
+      if (records.length === 0) {
+        debitRecordsContainer.innerHTML = '<p>No debit records found.</p>';
+        return;
+      }
+
+      const grouped = groupBySupplier(records);
+
+      for (const name in grouped) {
+        const supplierDiv = document.createElement('div');
+        supplierDiv.classList.add('supplier-record');
+
+        supplierDiv.innerHTML = `
+          <div class="supplier-header">
+            <h2>Supplier Name - ${name}</h2>
+            <div class="debits-list"></div>
+          </div>
+        `;
+
+        const debitListContainer = supplierDiv.querySelector('.debits-list');
+        let totalAmount = 0;
+
+        grouped[name].forEach((record) => {
+          totalAmount += parseFloat(record.amount);
+
+          const div = document.createElement('div');
+          div.classList.add('debit-record');
+
+          const recordId = `${record.name}-${record.amount}-${record.date}-${record.description}`;
+
+          div.innerHTML = `
+            <div class="debit-details">
+              <div>
+                <span>Amount: ₹${record.amount}</span><br>
+                <span class="date">Date: ${new Date(record.date).toLocaleDateString()}</span>
+              </div>
+              <svg class="delete-icon" data-id="${recordId}" viewBox="0 0 24 24">
+                <path d="M3 6h18v2H3V6zm2 3h14l-1.5 12.5a1 1 0 0 1-1 .5H7a1 1 0 0 1-1-.5L4 9zm5 2v7h2v-7H9zm4 0v7h2v-7h-2z"/>
+              </svg>
+            </div>
+            <p><strong>Description:</strong> ${record.description || 'N/A'}</p>
+          `;
+
+          debitListContainer.appendChild(div);
+        });
+
+        const totalDiv = document.createElement('div');
+        totalDiv.classList.add('total-debit');
+        totalDiv.innerHTML = `<strong>Total Debit: ₹${totalAmount.toFixed(2)}</strong>`;
+        supplierDiv.appendChild(totalDiv);
+
+        debitRecordsContainer.appendChild(supplierDiv);
+      }
+
+      attachDeleteHandlers();
+    }
+
+    function attachDeleteHandlers() {
+      document.querySelectorAll('.delete-icon').forEach((icon) => {
+        icon.addEventListener('click', function () {
+          const recordId = this.dataset.id;
+          debitRecords = debitRecords.filter((r) => {
+            const id = `${r.name}-${r.amount}-${r.date}-${r.description}`;
+            return id !== recordId;
+          });
+          localStorage.setItem('debitRecords', JSON.stringify(debitRecords));
+          applyFilters();
+        });
+      });
+    }
+
+    function getFilteredRecords() {
+      const nameFilter = searchName.value.toLowerCase();
+      const dateFilter = searchDate.value;
+
+      return debitRecords.filter((record) => {
+        const matchName = record.name.toLowerCase().includes(nameFilter);
+        const matchDate = !dateFilter || record.date === dateFilter;
+        return matchName && matchDate;
+      });
+    }
+
+    function applyFilters() {
+      const filtered = getFilteredRecords();
+      displayRecords(filtered);
+    }
+
+    // Initial load
+    displayRecords(debitRecords);
+
+    // Event listeners
+    searchDate.addEventListener('change', applyFilters);
+    searchName.addEventListener('input', applyFilters);
+  };
+</script>
+
+
+</body>
+</html>

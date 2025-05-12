@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order New Stocks - MeriDukaan</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7fa;
+      
+    }
+
+       .header {
+      background-color: #ffffff;
+      height: 80px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2b6cb0;
+      margin-right: 30px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 9999px;
+      background-color: white;
+      color: #111;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      line-height: 1;
+      margin-top: 4px;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #f1f3f4;
+    }
+
+     .login-btn {
+      background-color: #38a169;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 4px;
+    }
+
+    .login-btn:hover {
+      background-color: #2f855a;
+    }
+    .panel-section {
+      margin: 100px auto 0;
+      padding: 50px;
+      max-width: 1100px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    form > div {
+      margin-bottom: 25px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      color: #444;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .item-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    .item-row input {
+      flex: 1;
+    }
+
+    .item-row button {
+      background-color: #e53e3e;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .add-item-btn {
+      background-color: #4299e1;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .submit-btn {
+      background-color: #38a169;
+      color: white;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #2b6cb0;
+      font-weight: 600;
+    }
+
+    @media screen and (max-width: 768px) {
+      .item-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+   <!-- Header -->
+  <div class="header">
+    <div class="left-section">
+      
+      <div class="brand">MeriDukan</div>
+      <div class="nav-buttons">
+        <button>🏠 Home</button>
+        <button>About</button>
+        <button>Services</button>
+        <button>Contact</button>
+      </div>
+    </div>
+  <button class="login-btn">Login</button>
+</div>
+
+<div class="panel-section">
+  <h2>Order New Stocks</h2>
+  <form id="stockForm">
+    <div>
+      <label>Product Details</label>
+      <div id="items-container">
+        <div class="item-row">
+  <input type="text" placeholder="Product name" class="item-name" required />
+<input type="number" placeholder="Quantity" class="item-qty" required oninput="validateQuantity(this)" />
+  <input type="number" placeholder="Rate ₹" class="item-rate" required />
+  <button type="button" onclick="removeItem(this)">✖</button>
+</div>
+
+      </div>
+      <button type="button" class="add-item-btn" onclick="addItem()">+ Add Item</button>
+    </div>
+
+    <div>
+      <label for="supplier">Supplier</label>
+      <select id="supplier" name="supplier">
+        <option value="supplier1">Supplier 1</option>
+        <option value="supplier2">Supplier 2</option>
+        <option value="supplier3">Supplier 3</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="order-date">Order Date</label>
+      <input type="date" id="order-date" required />
+    </div>
+
+    <div>
+      <label for="delivery-date">Expected Delivery Date</label>
+      <input type="date" id="delivery-date" required />
+    </div>
+
+    <div>
+      <label for="special-notes">Special Notes</label>
+      <textarea id="special-notes" rows="4" placeholder="Enter any special instructions"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Send Order via WhatsApp</button>
+  </form>
+  <a class="back-link" href="index.html?panel=suppliers">← Back to Suppliers</a>
+</div>
+
+<script>
+function addItem() {
+  const container = document.getElementById('items-container');
+  const newRow = document.createElement('div');
+  newRow.className = 'item-row';
+  newRow.innerHTML = `
+    <input type="text" placeholder="Product name" class="item-name" required />
+    <input type="number" placeholder="Quantity" class="item-qty" required />
+    <input type="number" placeholder="Rate ₹" class="item-rate" required />
+    <button type="button" onclick="removeItem(this)">✖</button>
+  `;
+  container.appendChild(newRow);
+}
+
+function removeItem(button) {
+  button.parentElement.remove();
+}
+
+function validateQuantity(input) {
+  // Remove any non-numeric characters (including "e")
+  input.value = input.value.replace(/[^0-9]/g, '');
+}
+
+
+document.getElementById('stockForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const items = [];
+  document.querySelectorAll('.item-row').forEach(row => {
+    const name = row.querySelector('.item-name').value.trim();
+    const qty = row.querySelector('.item-qty').value.trim();
+    const rate = row.querySelector('.item-rate').value.trim();  // Get the rate value
+
+    if (name && qty && rate) {
+      items.push({ name, qty, rate });
+    }
+  });
+
+  const supplier = document.getElementById('supplier').value;
+  const orderDate = document.getElementById('order-date').value;
+  const deliveryDate = document.getElementById('delivery-date').value;
+  const notes = document.getElementById('special-notes').value;
+
+  const supplierNumbers = {
+    supplier1: '9759655101',
+    supplier2: '9759655101',
+    supplier3: '9759655101'
+  };
+  const phoneNumber = supplierNumbers[supplier];
+
+  let message = `🛒 *New Stock Order from MeriDukaan*\n\n`;
+  message += `📅 *Order Date:* ${orderDate}\n`;
+  message += `🚚 *Expected Delivery:* ${deliveryDate}\n`;
+  message += `📦 *Items Ordered:*\n`;
+
+  items.forEach((item, index) => {
+    message += `   ${index + 1}. ${item.name} - Qty: ${item.qty}, Rate: ₹${item.rate}\n`;
+  });
+
+  if (notes) {
+    message += `\n📝 *Special Notes:* ${notes}`;
+  }
+
+  const encoded = encodeURIComponent(message);
+  const whatsappURL = `https://wa.me/${phoneNumber}?text=${encoded}`;
+  window.open(whatsappURL, '_blank');
+});
+</script>
+
+
+</body>
+</html>

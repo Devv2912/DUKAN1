@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Invoice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            padding: 40px 0;
+        }
+
+         .header {
+      background-color: #ffffff;
+      height: 80px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2b6cb0;
+      margin-right: 30px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 9999px;
+      background-color: white;
+      color: #111;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      line-height: 1;
+      margin-top: 11px;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #f1f3f4;
+    }
+
+    .login-btn {
+      background-color: #38a169;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 11px;
+    }
+
+    .login-btn:hover {
+      background-color: #2f855a;
+    }
+
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin-top: 100px; /* Push content below the fixed header */
+            margin: 70px auto 0 auto; /* <-- updated line */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-section {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input, textarea {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        input[type="tel"],
+        input[type="email"],
+        input[type="date"] {
+            width: calc(50% - 12px);
+            display: inline-block;
+            margin-right: 12px;
+        }
+
+        input[type="tel"]:last-child,
+        input[type="email"]:last-child {
+            margin-right: 0;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+        .item input {
+            width: 30%;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .add-item-btn {
+            background-color: #2196F3;
+            margin-top: 20px;
+            width: auto;
+        }
+
+        .add-item-btn:hover {
+            background-color: #1976D2;
+        }
+
+        .date-picker {
+            width: 48%;
+        }
+
+        .form-section .item {
+            margin-bottom: 0;
+        }
+
+        .form-section .add-item-btn {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+   <!-- Header -->
+  <div class="header">
+    <div class="left-section">
+      
+      <div class="brand">MeriDukan</div>
+      <div class="nav-buttons">
+        <button>🏠 Home</button>
+        <button>About</button>
+        <button>Services</button>
+        <button>Contact</button>
+      </div>
+    </div>
+    <button class="login-btn">Login</button>
+  </div>
+
+    <div class="container">
+        <h1>Generate Invoice</h1>
+        <form id="invoice-form">
+            <!-- Customer Details Section -->
+            <div class="form-section">
+                <h3>Customer Details</h3>
+                <label for="customer-name">Customer Name:</label>
+                <input type="text" id="customer-name" name="customer-name" placeholder="Enter Customer Name" required>
+
+                <label for="customer-phone">Phone Number:</label>
+                <input type="tel" id="customer-phone" name="customer-phone" pattern="[0-9]{10}" placeholder="+91" required>
+
+                <label for="customer-email">Email:</label>
+                <input type="email" id="customer-email" name="customer-email" placeholder="Enter Customer Email Id" required>
+
+                <label for="invoice-date">Date:</label>
+                <input type="date" id="invoice-date" name="invoice-date" class="date-picker" required>
+            
+                <label for="customer-address">Customer Address:</label>
+                <textarea id="customer-address" name="customer-address" rows="4" required placeholder="Enter Customer Address"></textarea>
+            </div>
+
+            <!-- Items Section -->
+            <div class="form-section" id="items-container">
+                <h3>Items</h3>
+                <div class="item">
+                    <input type="text" placeholder="Item Name" class="item-name" required>
+                    <input type="number" placeholder="Quantity" class="item-quantity" required>
+                    <input type="number" placeholder="Price" class="item-price" required>
+                    <button type="button" onclick="removeItem(this)">Remove Item</button>
+                </div>
+            </div>
+
+            <button type="button" class="add-item-btn" onclick="addItem()">Add Item</button>
+            <button type="submit">Generate Invoice</button>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    // Function to add a new item row to the form
+    function addItem() {
+        const container = document.getElementById('items-container');
+        const newItem = document.createElement('div');
+        newItem.classList.add('item');
+        newItem.innerHTML = `
+            <input type="text" placeholder="Item Name" class="item-name" required>
+            <input type="number" placeholder="Quantity" class="item-quantity" required>
+            <input type="number" placeholder="Price" class="item-price" required>
+            <button type="button" onclick="removeItem(this)">Remove Item</button>
+        `;
+        container.appendChild(newItem);
+    }
+
+    // Function to remove an item row
+    function removeItem(button) {
+        button.parentElement.remove();
+    }
+
+    // Initialize with 3 items on page load
+    window.onload = function () {
+        for (let i = 0; i < 3; i++) {
+            addItem();
+        }
+    };
+
+    // Function to generate the PDF invoice
+    document.getElementById('invoice-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const customerName = document.getElementById('customer-name').value;
+        const customerAddress = document.getElementById('customer-address').value;
+        const customerPhone = document.getElementById('customer-phone').value;
+        const customerEmail = document.getElementById('customer-email').value;
+        const invoiceDate = document.getElementById('invoice-date').value;
+        const items = document.querySelectorAll('.item');
+
+        const invoiceDetails = {
+            customerName,
+            customerAddress,
+            customerPhone,
+            customerEmail,
+            invoiceDate,
+            items: []
+        };
+
+        let totalAmount = 0;
+
+        items.forEach(item => {
+            const itemName = item.querySelector('.item-name').value;
+            const itemQuantity = parseInt(item.querySelector('.item-quantity').value);
+            const itemPrice = parseFloat(item.querySelector('.item-price').value);
+            const itemTotal = itemQuantity * itemPrice;
+            totalAmount += itemTotal;
+
+            invoiceDetails.items.push({
+                itemName,
+                itemQuantity,
+                itemPrice,
+                itemTotal
+            });
+        });
+
+        // Generate PDF
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Shop Details
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(18);
+        doc.text('MeriDukaan Store', 20, 20);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Shop No. 123, Main Bazar, Small Town', 20, 27);
+        doc.text('Phone: +91-9876543210 | Email: meridukan@example.com', 20, 33);
+
+        // Invoice heading
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text('INVOICE', 160, 20);
+
+        // Customer Details Box
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.5);
+        doc.rect(20, 40, 170, 35);
+
+        doc.text(`Customer Name: ${invoiceDetails.customerName}`, 25, 48);
+        doc.text(`Phone: ${invoiceDetails.customerPhone}`, 25, 55);
+        doc.text(`Email: ${invoiceDetails.customerEmail}`, 25, 62);
+        doc.text(`Address: ${invoiceDetails.customerAddress}`, 25, 69);
+        doc.text(`Date: ${invoiceDetails.invoiceDate}`, 150, 48);
+
+        // Table Headers
+        let y = 85;
+        doc.setFont('helvetica', 'bold');
+        doc.text('Item Name', 25, y);
+        doc.text('Qty', 100, y);
+        doc.text('Price', 120, y);
+        doc.text('Total', 150, y);
+
+        doc.setLineWidth(0.1);
+        doc.line(20, y + 2, 190, y + 2);
+
+        // Items Table Content
+        y += 10;
+        doc.setFont('helvetica', 'normal');
+        invoiceDetails.items.forEach(item => {
+            doc.text(item.itemName, 25, y);
+            doc.text(item.itemQuantity.toString(), 100, y);
+            doc.text(`₹${item.itemPrice.toFixed(2)}`, 120, y);
+            doc.text(`₹${item.itemTotal.toFixed(2)}`, 150, y);
+            y += 8;
+        });
+
+        // Total Amount
+        doc.setFont('helvetica', 'bold');
+        doc.text('Total Amount:', 120, y + 10);
+        doc.text(`₹${totalAmount.toFixed(2)}`, 150, y + 10);
+
+        // Save PDF
+        doc.save(`${customerName}_invoice.pdf`);
+    });
+</script>
+
+</body>
+</html>

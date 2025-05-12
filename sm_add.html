@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Staff | MeriDukaan</title>
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f7fa;
+}
+
+.header {
+  background-color: #ffffff;
+  height: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2b6cb0;
+  margin-right: 30px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nav-buttons button {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 9999px;
+  background-color: white;
+  color: #111;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.nav-buttons button:hover {
+  background-color: #f1f3f4;
+}
+
+.login-btn {
+  background-color: #38a169;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 4px;
+}
+
+.login-btn:hover {
+  background-color: #2f855a;
+}
+
+main {
+  margin: 100px auto 0;
+  padding: 50px;
+  max-width: 1100px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  margin-bottom: 40px;
+   border-left: 6px solid #2b6cb0;
+}
+
+h1 {
+  margin-bottom: 10px;
+  font-size: 30px;
+  color: #2c3e50;
+}
+
+p {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+input,
+select {
+  padding: 12px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #3498db;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+}
+
+button {
+  grid-column: span 2;
+  margin-top: 20px;
+  padding: 14px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+.confirmation {
+  grid-column: span 2;
+  margin-top: 15px;
+  font-weight: bold;
+  color: green;
+}
+
+/* Refining the form fields for a polished look */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="date"],
+select {
+  background-color: #fafafa;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus,
+select:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+  background-color: #fff;
+}
+
+/* Stylish Submit Button */
+button.form-btn {
+  background-color: #2b6cb0;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+
+
+/* Add hover and transition for the submit button */
+button.form-btn:active {
+  transform: scale(1.1);
+}
+
+
+
+/* Professional Date Picker and Supplier Card Styles */
+
+/* Inline Layout for Supplier Card */
+.supplier-card-inline {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #ffffff;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  border-left: 5px solid #2b6cb0;
+  margin-bottom: 25px;
+  width: fit-content;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.supplier-card-inline:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Label Styling */
+.supplier-title-inline {
+  font-size: 18px;
+  font-weight: 600;
+  color: #34495e;
+  font-family: 'Segoe UI', sans-serif;
+  white-space: nowrap;
+}
+
+/* Styled Supplier Inputs (Date Picker, etc.) */
+.supplier-input-inline {
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.supplier-input-inline:focus {
+  border-color: #2b6cb0;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+}
+
+/* Button Styling */
+.supplier-btn-inline {
+  background-color: #3498db;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.supplier-btn-inline:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+/* Wrapper for Dynamic Supplier Content */
+.supplier-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.supplier-content-wrapper div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+/* Date Picker Wrapper */
+.supplier-date-wrapper-inline {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #ffffff;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+  border-left: 5px solid #3498db;
+  margin-bottom: 30px;
+  width: fit-content;
+}
+
+.supplier-date-title-inline {
+  font-size: 17px;
+  font-weight: 600;
+  color: #2c3e50;
+  font-family: 'Segoe UI', sans-serif;
+  white-space: nowrap;
+}
+
+.supplier-date-picker-inline {
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.supplier-date-picker-inline:focus {
+  border-color: #3498db;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+}
+
+@media (max-width: 600px) {
+  .supplier-card-inline {
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .supplier-btn-inline {
+    width: 100%;
+  }
+
+  .supplier-date-wrapper-inline {
+    flex-direction: column;
+  }
+}
+
+
+    /* @media (max-width: 600px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+      button {
+        grid-column: span 1;
+      }
+    } */
+  </style>
+</head>
+<body>
+
+ <!-- Header -->
+<div class="header">
+  <div class="left-section">
+    <div class="brand">MeriDukan</div>
+    <div class="nav-buttons">
+      <button class="nav-btn">🏠 Home</button>
+      <button class="nav-btn">About</button>
+      <button class="nav-btn">Services</button>
+      <button class="nav-btn">Contact</button>
+    </div>
+  </div>
+  <button class="login-btn">Login</button>
+</div>
+
+<main>
+  <h1>Add New Staff Member</h1>
+  <p>Fill out the form below to register a new staff member.</p>
+
+  <form id="staffForm">
+    <div class="form-group">
+      <label for="staffName" class="form-label">Full Name</label>
+      <input type="text" id="staffName" class="form-input" required>
+    </div>
+
+    <div class="form-group">
+      <label for="staffRole" class="form-label">Role</label>
+      <select id="staffRole" class="form-input" required>
+        <option value="" disabled selected>Select a role</option>
+        <option>Cashier</option>
+        <option>Manager</option>
+        <option>Stock Keeper</option>
+        <option>Helper</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="staffPhone" class="form-label">Phone Number</label>
+      <input type="tel" id="staffPhone" class="form-input" required pattern="[0-9]{10}" placeholder="10-digit number">
+    </div>
+
+    <div class="form-group">
+      <label for="staffEmail" class="form-label">Email</label>
+      <input type="email" id="staffEmail" class="form-input" placeholder="Optional">
+    </div>
+
+    <div class="form-group">
+      <label for="staffGender" class="form-label">Gender</label>
+      <select id="staffGender" class="form-input" required>
+        <option value="" disabled selected>Select gender</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="staffDOB" class="form-label">Date of Birth</label>
+      <input type="date" id="staffDOB" class="form-input" required>
+    </div>
+
+    <div class="form-group">
+      <label for="staffJoining" class="form-label">Joining Date</label>
+      <input type="date" id="staffJoining" class="form-input" required>
+    </div>
+
+    <div class="form-group">
+      <label for="staffShift" class="form-label">Shift</label>
+      <select id="staffShift" class="form-input" required>
+        <option value="" disabled selected>Select shift</option>
+        <option>Morning</option>
+        <option>Evening</option>
+        <option>Full Day</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="staffSalary" class="form-label">Monthly Salary (₹)</label>
+      <input type="number" id="staffSalary" class="form-input" required min="0">
+    </div>
+
+    <div class="form-group">
+      <label for="staffAddress" class="form-label">Address</label>
+      <input type="text" id="staffAddress" class="form-input" required>
+    </div>
+
+    <button type="submit" class="form-btn">Add Staff</button>
+    <p class="confirmation" id="confirmationMessage" style="display: none;">✅ Staff added successfully!</p>
+  </form>
+</main>
+
+
+<script src="staff.js"></script>
+<script>
+  document.getElementById('staffForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const staff = {
+      name: document.getElementById('staffName').value,
+      role: document.getElementById('staffRole').value,
+      phone: document.getElementById('staffPhone').value,
+      email: document.getElementById('staffEmail').value,
+      gender: document.getElementById('staffGender').value,
+      dob: document.getElementById('staffDOB').value,
+      joining: document.getElementById('staffJoining').value,
+      shift: document.getElementById('staffShift').value,
+      salary: document.getElementById('staffSalary').value,
+      address: document.getElementById('staffAddress').value
+    };
+
+    // Save to localStorage
+    let staffList = JSON.parse(localStorage.getItem('staffList')) || [];
+    staffList.push(staff);
+    localStorage.setItem('staffList', JSON.stringify(staffList));
+
+    // Reset the form and show confirmation
+    this.reset();
+    document.getElementById('confirmationMessage').style.display = 'block';
+    setTimeout(() => {
+      document.getElementById('confirmationMessage').style.display = 'none';
+    }, 3000);
+  });
+</script>
+
+</body>
+</html>

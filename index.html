@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meridukan Header</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7fa;
+      display: flex;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #248998;
+      color: #000000;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      transition: transform 0.3s ease;
+      transform: translateX(0);
+      padding-top: 100px;
+      padding-left: 16px;
+      padding-right: 16px;
+      box-sizing: border-box;
+      z-index: 9;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-250px);
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px 16px;
+      margin: 8px 0;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 18px;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .sidebar a:hover {
+      background-color: #444;
+    }
+
+    .header {
+      background-color: #ffffff;
+      height: 80px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .hamburger {
+      cursor: pointer;
+      margin-right: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 25px;
+      height: 20px;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #333;
+      border-radius: 2px;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2b6cb0;
+      margin-right: 30px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 9999px;
+      background-color: white;
+      color: #111;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #f1f3f4;
+    }
+
+    .login-btn {
+      background-color: #38a169;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background-color: #2f855a;
+    }
+
+    .dashboard, .panel-section {
+      margin-top: 100px;
+      padding: 20px;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease;
+      display: none;
+    }
+
+    .panel-section.active {
+      display: block;
+    }
+
+  .card-container {
+  display: flex;
+  flex-wrap: nowrap; /* Force single row */
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 30px;
+  overflow-x: auto;
+}
+
+.card {
+  background: white;
+  width: 200px;
+  min-height: 200px;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+
+    .card img {
+      width: 40px;
+      margin-bottom: 10px;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .card h2 {
+      font-size: 23px;
+      color: #004e7c;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      font-size: 11px;
+      color: #000000;
+    }
+
+    .card h4 {
+  font-size: 14px; /* Increased font size for readability */
+  color: #555555; /* Slightly lighter color for the text */
+  margin-top: 10px; /* Add some spacing above the h4 */
+  line-height: 1.5; /* Improve readability by adding line height */
+  font-weight: 400; /* Use normal weight for better visual balance */
+  text-align: center; /* Center-align the text for a clean look */
+  letter-spacing: 0.5px; /* Add a slight letter-spacing for modern touch */
+}
+
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      color: #666;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .card-container {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-buttons {
+        display: none;
+      }
+
+      .sidebar {
+        width: 200px;
+      }
+
+      .dashboard, .panel-section, footer {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="#" onclick="showPanel('dashboard')">📢 Dashboard</a>
+    <a href="#" onclick="showPanel('stocks')">📦 Stocks</a>
+    <a href="#" onclick="showPanel('billing')">📝 Sales & Billing</a>
+    <a href="#" onclick="showPanel('expenses')">📊 Expenses & Profit</a>
+    <a href="#" onclick="showPanel('staff')">👤 Staff Management</a>
+    <a href="#" onclick="showPanel('udhaar')">💰 UdhaarKhata</a>
+    <a href="#" onclick="showPanel('suppliers')">🚚 Suppliers</a>
+    <a href="#" onclick="showPanel('payments')">💰 Payments</a>
+    <a href="#" onclick="showPanel('planning')">📆 Planning</a>
+    <a href="#" onclick="showPanel('settings')">⚙️ Settings</a>
+    <a href="#" onclick="showPanel('logout')">🔒 Logout</a>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="left-section">
+      <div class="hamburger" onclick="toggleSidebar()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="brand">MeriDukan</div>
+      <div class="nav-buttons">
+        <button>🏠 Home</button>
+        <button>About</button>
+        <button>Services</button>
+        <button>Contact</button>
+      </div>
+    </div>
+    <button class="login-btn">Login</button>
+  </div>
+
+  <!-- Dashboard Panel -->
+  <div id="dashboard" class="panel-section active">
+   
+    <!-- <h1><b>Now Serving Small Businesses Across India – Track, Manage & Grow with MeriDukaan</b></h1> -->
+
+    <h1>Dashboard Overview</h1>
+    <br/>
+    <h3>Welcome to your store dashboard.</h3>
+
+    <div class="card-container">
+      <a class="card" href="dash_stocks.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/4946/4946378.png" alt="Icon">
+        <h2>Stocks</h2>
+        <h4>Manage your stock inventory</h4>
+      </a>
+      <a class="card" href="dash_dr.html">
+        <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/billing-11-107893.png" alt="Icon">
+        <h2>Daily Reports</h2>
+         <h4>View daily sales and transaction summaries</h4>
+      </a>
+      <a class="card" href="dash_udhaar.html">
+        <img src="https://cdn-icons-png.freepik.com/512/6008/6008154.png" alt="Icon">
+        <h2>Udhaar</h2>
+         <h4>Track your credit and payment details</h4>
+      </a>
+      <a class="card" href="dash_expiry.html">
+        <img src="https://cdn-icons-png.flaticon.com/256/5632/5632472.png" alt="Icon">
+        <h2>Expiry Items</h2>
+        <h4>Get alerted before products expire</h4>
+      </a>
+      <a class="card" href="dash_payments.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/6192/6192511.png" alt="Icon">
+        <h2>Payments</h2>
+        <h4>Manage your payments</h4>
+      </a>
+    </div>
+  </div>
+
+<!-- Stocks Panel -->
+<div id="stocks" class="panel-section">
+ 
+  <h1>Stocks</h1>
+  <br/>
+  <h2>Keep track of your stock levels, manage products, and ensure timely restocking.</h2>
+
+  <div class="card-container">
+    <a class="card" href="stocks_view.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/2825/2825867.png" alt="Icon">
+      <h2>View Stocks</h2>
+      <h4>Monitor the current stock levels </h4>
+    </a>
+    <a class="card" href="stocks_restock.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/12043/12043386.png" alt="Icon">
+      <h2>Restock Items</h2>
+      <h4>Order products that are running low</h4>
+    </a>
+    <a class="card" href="stocks_alerts.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/6304/6304495.png" alt="Icon">
+      <h2>Stock Alerts</h2>
+      <h4>Get notified when stock reaches a low level</h4>
+    </a>
+    <a class="card" href="stocks_history.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/4215/4215285.png" alt="Icon">
+      <h2>Stock History</h2>
+      <h4>Track historical stock movements</h4>
+    </a>
+  </div>
+</div>
+
+
+  <!-- Sales and Billing Panel -->
+<div id="billing" class="panel-section">
+  <h1>Sales & Billing</h1>
+  <br/>
+  <h2>Manage your sales and billing efficiently.</h2>
+
+  <div class="card-container">
+    <a class="card" href="sb_invoice.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/7176/7176657.png" alt="Icon">
+      <h2>Generate Invoice</h2>
+      <h4>Generate and send invoices to customers</h4>
+    </a>
+  
+    <a class="card" href="sb_tracking.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/6008/6008167.png" alt="Icon">
+      <h2>Payment Tracking</h2>
+      <h4>Track payments and balances</h4>
+    </a>
+
+     <a class="card" href="sb_history.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/4215/4215285.png" alt="Icon">
+      <h2>Billing History</h2>
+      <h4>View and manage past billing records</h4>
+    </a>
+
+    <a class="card" href="sb_refunds.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/3756/3756460.png" alt="Icon">
+      <h2>Refunds</h2>
+      <h4>Process refunds for customers</h4>
+    </a>
+  </div>
+</div>
+
+<!-- Expenses and Profit Panel -->
+<div id="expenses" class="panel-section">
+
+  <h1>Expenses & Profit</h1>
+  <br/>
+  <h2>Track your business expenses and profits in real-time.</h2>
+
+  <div class="card-container">
+    <a class="card" href="#">
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828474.png" alt="Icon">
+      <h2>Track Expenses</h2>
+      <h4>Monitor your expenses across different categories</h4>
+    </a>
+    <a class="card" href="#">
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828911.png" alt="Icon">
+      <h2>Profit Calculation</h2>
+      <h4>Calculate your business profits with ease</h4>
+    </a>
+    <a class="card" href="#">
+      <img src="https://cdn-icons-png.flaticon.com/512/3259/3259188.png" alt="Icon">
+      <h2>Balance Sheet</h2>
+      <h4>View and manage your balance sheet</h4>
+    </a>
+    <a class="card" href="#">
+      <img src="https://cdn-icons-png.flaticon.com/512/1199/1199123.png" alt="Icon">
+      <h2>Cost Analysis</h2>
+      <h4>Analyze your business costs and margins</h4>
+    </a>
+    <a class="card" href="#">
+      <img src="https://cdn-icons-png.flaticon.com/512/726/726219.png" alt="Icon">
+      <h2>Financial Reports</h2>
+      <h4>Generate detailed financial reports</h4>
+    </a>
+  </div>
+</div>
+
+<!-- Staff Management Panel -->
+<div id="staff" class="panel-section">
+  <h1>Staff Management</h1>
+  <br/>
+  <h2>Monitor roles, track attendance, and assign tasks to staff efficiently.</h2>
+
+  <div class="card-container">
+    <a class="card" href="sm_add.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/921/921347.png" alt="Icon">
+      <h2>Add Staff</h2>
+      <h4>Register new staff members to the system</h4>
+    </a>
+    <a class="card" href="sm_attendance.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt="Icon">
+      <h2>Attendance</h2>
+      <h4>Track daily attendance and working hours</h4>
+    </a>
+    <a class="card" href="sm_manage.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/4136/4136854.png" alt="Icon">
+      <h2>Manage Staff</h2>
+      <h4>Assign or update staff roles</h4>
+    </a>
+  </div>
+</div>
+
+  <!-- Udhaar Khata Panel -->
+  <div id="udhaar" class="panel-section">
+  
+    <h1>Udhaar Khata</h1>
+    <br/>
+    <h2>Manage your credit and debit records here.</h2>
+
+    <div class="card-container">
+      <a class="card" href="udhaar_addc.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/4042/4042260.png" alt="Icon">
+        <h2>Add Customer</h2>
+        <h4>Add Customer </h4>
+      </a>
+      <a class="card" href="udhaar_ac.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/3828/3828201.png" alt="Icon">
+        <h2>Add Credit</h2>
+        <h4>Record new credit</h4>
+      </a>
+      <a class="card" href="udhaar_vc.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/11078/11078490.png" alt="Icon">
+        <h2>View Credit</h2>
+        <h4>See all the credit records</h4>
+      </a>
+    
+      <a class="card" href="udhaar_mc.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/4042/4042260.png" alt="Icon">
+        <h2>Manage Customer</h2>
+        <h4>Manage Customer </h4>
+      </a>
+      
+    </div>
+  </div>
+
+   <!-- Suppliers Panel -->
+  <div id="suppliers" class="panel-section">
+    
+    <h1>Suppliers</h1>
+    <br/>
+    <h3>Manage your supplier details below.</h3>
+
+    <div class="card-container">
+       <a class="card" href="supp_ns.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/3321/3321752.png" alt="Icon">
+    <h2>Order New Stock</h2>
+    <h4>Place new orders with suppliers</h4>
+  </a>
+  <a class="card" href="supp_add.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/9775/9775776.png" alt="Icon">
+    <h2>Add Supplier</h2>
+    <h4>Add a new supplier to your records</h4>
+  </a>
+  <a class="card" href="supp_trans.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/3747/3747425.png" alt="Icon">
+    <h2>Transportation</h2>
+    <h4>Contact your Delivery Partners</h4>
+  </a>
+
+  <a class="card" href="supp_manage.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/6102/6102566.png" alt="Icon">
+    <h2>Manage Supplier</h2>
+    <h4>Edit or update supplier information</h4>
+  </a>
+
+  
+</div>
+</div>
+
+<!-- Payments -->
+  <div id="payments" class="panel-section">
+    
+    <h1>Payments</h1>
+    <br/>
+    <h3>Manage your payments with suppliers. </h3>
+
+    <div class="card-container">
+      <a class="card" href="payments_ad.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/139/139900.png" alt="Icon">
+        <h2>Add Debit</h2>
+        <h4>Record new debit</h4>
+      </a>
+      <a class="card" href="payments_vd.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/9361/9361196.png" alt="Icon">
+        <h2>View Debit</h2>
+        <h4>See all the debit records</h4>
+      </a>
+
+  
+</div>
+</div>
+
+
+
+  <!-- Planning Panel -->
+<div id="planning" class="panel-section">
+  <h1>Planning</h1>
+  <br/>
+  <h2>Plan ahead for stock, sales, and expenses to keep your business running smoothly.</h2>
+
+  <div class="card-container">
+    <a class="card" href="#">
+      <img src="https://cdn-icons-png.flaticon.com/512/2232/2232768.png" alt="Icon">
+      <h2>Stock Forecasting</h2>
+      <h4>Predict and plan stock levels based on sales trends</h4>
+    </a>
+    <a class="card" href="#">
+      <img src="https://cdn-icons-png.flaticon.com/512/3012/3012137.png" alt="Icon">
+      <h2>Sales Projections</h2>
+      <h4>Estimate future sales to adjust inventory and budget</h4>
+    </a>
+    <a class="card" href="#">
+      <img src="https://cdn-icons-png.flaticon.com/512/2600/2600301.png" alt="Icon">
+      <h2>Expense Planning</h2>
+      <h4>Plan for expenses and keep track of your budget</h4>
+    </a>
+    <a class="card" href="#">
+      <img src="https://cdn-icons-png.flaticon.com/512/2763/2763104.png" alt="Icon">
+      <h2>Profit Estimation</h2>
+      <h4>Calculate expected profits based on projections</h4>
+    </a>
+    <a class="card" href="#">
+      <img src="https://cdn-icons-png.flaticon.com/512/1314/1314632.png" alt="Icon">
+      <h2>Task Scheduling</h2>
+      <h4>Plan tasks, deadlines, and assign responsibilities</h4>
+    </a>
+  </div>
+</div>
+
+
+
+<!-- Settings Panel -->
+<div id="settings" class="panel-section">
+  
+  <h1>Settings</h1>
+
+  <div class="card-container">
+    <a class="card" href="settings_account.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/8345/8345328.png" alt="Icon">
+      <h2>Account </h2>
+      <h4>Manage user accounts, roles, and permissions</h4>
+    </a>
+    <a class="card" href="settings_store.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/869/869636.png" alt="Icon">
+      <h2>Store Settings</h2>
+      <h4>Customize your store details</h4>
+    </a>
+    <a class="card" href="settings_payments.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/6192/6192511.png" alt="Icon">
+      <h2>Payments</h2>
+      <h4>Set up and manage your payment gateways</h4>
+    </a>
+    <a class="card" href="settings_notifications.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/3759/3759237.png" alt="Icon">
+      <h2>Notifications</h2>
+      <h4>Adjust your notification preferences for updates</h4>
+    </a>
+    <a class="card" href="settings_privacy.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/6672/6672221.png" alt="Icon">
+      <h2>Privacy</h2>
+      <h4>Control your privacy and data access</h4>
+    </a>
+  </div>
+</div>
+
+<!-- Logout Panel -->
+<div id="logout" class="panel-section">
+  <h1>Logout</h1>
+  <br/>
+  <h2>Click below to securely log out of your account.</h2>
+
+  <div class="card-container">
+    <a class="card" href="logout_url_here">
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828771.png" alt="Icon">
+      <h2>Logout</h2>
+      <h4>Click here to securely log out of your account</h4>
+    </a>
+  </div>
+</div>
+
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 MeriDukaan. All rights reserved.
+  </footer>
+
+ <!-- JavaScript -->
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('hidden');
+    const panels = document.querySelectorAll('.panel-section, footer');
+    panels.forEach(panel => {
+      panel.style.marginLeft = sidebar.classList.contains('hidden') ? '0' : '250px';
+    });
+  }
+
+  function showPanel(panelId) {
+    const panels = document.querySelectorAll('.panel-section');
+    panels.forEach(panel => panel.classList.remove('active'));
+
+    const target = document.getElementById(panelId);
+    if (target) target.classList.add('active');
+  }
+
+  function getPanelFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('panel') || 'dashboard';
+  }
+
+  window.onload = function () {
+    const panel = getPanelFromURL();
+    showPanel(panel);
+  };
+</script>
+
+
+</body>
+</html>
