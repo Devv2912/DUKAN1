@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MeriDukaan Stock Planning</title>
+  <style>
+    /* Global Styles */
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2c3e50;
+      --light-color: #ecf0f1;
+      --danger-color: #e74c3c;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --font-family: 'Segoe UI', sans-serif;
+      --padding: 20px;
+      --header-height: 80px; /* Height of fixed header */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--light-color);
+      padding-top: var(--header-height); /* Ensure content starts below header */
+    }
+
+    h1 {
+      font-size: 32px;
+      color: var(--secondary-color);
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #7f8c8d;
+    }
+
+    /* Header Styles */
+    .header {
+      background-color: var(--primary-color);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--header-height);
+      z-index: 1000;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: white;
+    }
+
+    /* Main Content */
+    main {
+      padding: var(--padding);
+      background-color: white;
+      max-width: 1200px;
+      margin: 50px auto 0 auto; /* Add a top margin for visible gap */
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+
+    .buttons {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .buttons button {
+      padding: 12px 20px;
+      background-color: var(--secondary-color);
+      border: none;
+      color: white;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .buttons button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Highlight Active Button */
+    .buttons button.active-button {
+      background-color: var(--primary-color);
+      transform: scale(1.02);
+    }
+
+    /* Form and Table Styles */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      background-color: #f4f4f4;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Table Styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th,
+    table td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    table th {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    table td {
+      background-color: white;
+    }
+
+    /* Buttons in Table */
+    .delete-btn {
+      background-color: var(--danger-color);
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+
+    /* Container for Planning Summary and Delete All Button */
+#planning-summary-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Styling for the Delete All Button */
+.delete-all-btn {
+    padding: 6px 12px; /* Smaller padding */
+    background-color: #ff6b6b; /* Red background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    margin-left: 1000px;
+    height: 40px; /* Optional: set a fixed height */
+    width: 120px; /* Optional: set a fixed width */
+}
+
+/* Hover Effect for Delete All Button */
+.delete-all-btn:hover {
+    background-color: #ff4b4b; /* Darker red when hovered */
+}
+
+/* Align the Delete All Button and Planning Summary Text */
+#planning-summary {
+  text-align: left;
+  font-weight: bold;
+}
+
+/* Make the Planning Summary Heading and Description aligned properly */
+#planning-summary-container h1, 
+#planning-summary-container p {
+    margin: 0;
+}
+
+#planning-summary-container button {
+    margin-right: 20px; /* Adjust space between button and summary */
+ 
+}
+
+#planning-summary {
+    text-align: left;
+    font-weight: bold;
+}
+
+
+    /* Side Buttons Styling */
+    .side-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;  /* Align buttons to the left */
+      margin-top: 20px; /* Space between table and buttons */
+    }
+
+    .side-button {
+      padding: 8px 16px;
+      background-color: #3498db;  /* Change to your desired color */
+      border: none;
+      color: white;
+      font-size: 14px;
+      border-radius: 5px;
+      margin-bottom: 10px; /* Space between buttons */
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .side-button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Align buttons side by side */
+    .download-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .download-buttons button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .download-buttons button:nth-child(1) {
+      background-color: #2ecc71;
+    }
+
+    .download-buttons button:nth-child(1):hover {
+      background-color: #27ae60;
+    }
+
+    .download-buttons button:nth-child(2) {
+      background-color: #f39c12;
+    }
+
+    .download-buttons button:nth-child(2):hover {
+      background-color: #e67e22;
+    }
+
+
+
+
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="brand">MeriDukaan</div>
+  </div>
+
+  <main>
+   <div class="buttons">
+      <button id="stock-btn" class="active-button" onclick="showSection('stock-planning', this)">Stock Planning</button>
+      <button id="summary-btn" onclick="showSection('planning-summary', this)">Planning Summary</button>
+    </div>
+
+    <!-- Stock Planning Section -->
+    <section id="stock-planning">
+      <h1>Stock Planning</h1>
+      <p>Manage and plan your inventory with ease.</p>
+      <br/>
+
+      <form id="stock-form">
+        <div class="form-group">
+          <label for="stock-item">Item Name:</label>
+          <input type="text" id="stock-item" name="stock-item" placeholder="Enter item name" required>
+        </div>
+        <div class="form-group">
+          <label for="stock-quantity">Quantity:</label>
+          <input type="number" id="stock-quantity" name="stock-quantity" placeholder="Enter quantity" required>
+        </div>
+        <div class="form-group">
+          <label for="stock-price">Price:</label>
+          <input type="number" id="stock-price" name="stock-price" placeholder="Enter price per unit" required>
+        </div>
+        <div class="form-group">
+          <button type="submit">Add Item</button>
+        </div>
+      </form>
+
+      <table border="1">
+        <thead>
+          <thead>
+  <tr>
+    <th>S.No</th>
+    <th>Item</th>
+    <th>Quantity</th>
+    <th>Price (₹)</th>
+    <th>Total (₹)</th>
+    <th>Action</th>
+  </tr>
+</thead>
+
+        </thead>
+        <tbody id="stock-table-body"></tbody>
+      </table>
+    </section>
+
+    <!-- Planning Summary Section -->
+
+    <section id="planning-summary" style="display: none;">
+      <h1>Planning Summary</h1>
+            <p>Review all planned stock data in one place.</p>
+
+        <!-- Delete All Button -->
+<button class="delete-all-btn" onclick="deleteAllItems()">Delete All</button>      
+<table border="1">
+  <thead>
+    <tr>
+      <th>S.No</th>
+      <th>Item</th>
+      <th>Quantity</th>
+      <th>Price (₹)</th>
+      <th>Total (₹)</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  
+
+  <tbody id="summary-table-body">
+    <!-- Rows will be inserted by JavaScript -->
+  </tbody>
+</table>
+
+<!-- 💰 Total value will show up here -->
+<div id="summary-total" style="margin-top: 10px; font-weight: bold; text-align: right; font-size: 30px; padding-right: 20px;"></div>
+
+      <div class="download-buttons">
+        <button onclick="downloadPDF()">📄 Download PDF</button>
+        <button onclick="downloadJPG()">🖼️ Download JPG</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- External Libraries -->
+<!-- jsPDF library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- Your JS -->
+<script>
+    // Session-only temp planning array
+    let tempPlanningData = [];
+
+    function getData(key) {
+        return JSON.parse(localStorage.getItem(key)) || [];
+    }
+
+    function setData(key, data) {
+        localStorage.setItem(key, JSON.stringify(data));
+    }
+
+    function saveToPlanningStorage(item, quantity, price) {
+        // Push to session-only temp array
+        tempPlanningData.push({ item, quantity, price });
+
+        // Push to permanent summary
+        const summaryData = getData('stockSummaryData');
+        summaryData.push({ item, quantity, price });
+        setData('stockSummaryData', summaryData);
+
+        // Update both views
+        displayStockPlanningData();
+        displaySummaryData();
+    }
+
+    function displayTableData(data, containerId, deleteFunctionName, showTotal = true) {
+        const tableBody = document.getElementById(containerId);
+        tableBody.innerHTML = '';
+        data.forEach((entry, index) => {
+            const total = (entry.quantity * entry.price).toFixed(2);
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${entry.item}</td>
+                <td>${entry.quantity}</td>
+                <td>₹${entry.price}</td>
+                ${showTotal ? `<td>₹${total}</td>` : ''}
+                <td><button onclick="${deleteFunctionName}(${index})">Delete</button></td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function displayStockPlanningData() {
+        displayTableData(tempPlanningData, 'stock-table-body', 'deletePlanningItem');
+    }
+
+    function displaySummaryData() {
+        const data = getData('stockSummaryData');
+        displayTableData(data, 'summary-table-body', 'deleteSummaryItem');
+
+        // 💰 Calculate total value
+        let total = 0;
+        data.forEach(entry => {
+            total += entry.quantity * entry.price;
+        });
+
+        // 💬 Show total
+        document.getElementById('summary-total').innerText = `Total Value: ₹${total.toFixed(2)}`;
+    }
+
+    function deletePlanningItem(index) {
+        tempPlanningData.splice(index, 1);
+        displayStockPlanningData();
+    }
+
+    function deleteSummaryItem(index) {
+        const summaryData = getData('stockSummaryData');
+        summaryData.splice(index, 1);
+        setData('stockSummaryData', summaryData);
+        displaySummaryData();
+    }
+
+    function showSection(sectionId, btn) {
+        const sections = document.querySelectorAll('section');
+        const buttons = document.querySelectorAll('.buttons button');
+        sections.forEach(sec => sec.style.display = 'none');
+        document.getElementById(sectionId).style.display = 'block';
+        buttons.forEach(b => b.classList.remove('active-button'));
+        btn.classList.add('active-button');
+
+        if (sectionId === 'stock-planning-section') {
+            // Clear session view when re-visiting planning section
+            tempPlanningData = [];
+            displayStockPlanningData();
+        }
+    }
+
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+    });
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+
+    // Set margins
+    const marginLeft = 20;
+    const startY = 30;
+
+    // Title
+    doc.setFontSize(25);
+    doc.setFont("helvetica", "bold");
+    const title = "Stock Planning Summary";
+    const titleWidth = doc.getTextWidth(title);
+    doc.text(title, (pageWidth - titleWidth) / 2, 20);
+
+    // Table columns
+    const headers = [["S.No", "Item", "Quantity", "Price (Rs.)", "Total (Rs.)"]];
+
+    // Table data
+    const data = getData("stockSummaryData");
+    const rows = [];
+    let overallTotal = 0;
+
+    data.forEach((entry, index) => {
+        const total = (entry.quantity * entry.price).toFixed(2);
+        overallTotal += parseFloat(total);
+        rows.push([
+            (index + 1).toString(),
+            entry.item,
+            entry.quantity.toString(),
+            entry.price.toFixed(2),
+            total
+        ]);
+    });
+
+    // Draw the table using autoTable
+    doc.autoTable({
+        startY: startY,
+        head: headers,
+        body: rows,
+        styles: {
+            halign: 'center',
+            valign: 'middle',
+            fontSize: 11,
+            cellPadding: 4,
+            lineColor: [0, 0, 0],
+            lineWidth: 0.2
+        },
+        headStyles: {
+            fillColor: [220, 220, 220],
+            textColor: 20,
+            fontStyle: 'bold'
+        },
+        theme: 'grid',
+        tableWidth: 'auto',
+        margin: { left: marginLeft, right: marginLeft }
+    });
+
+    // Total amount text
+doc.setFontSize(18);
+
+const labelText = "Overall Total: Rs.  ";
+const amountText = overallTotal.toFixed(2);
+const finalY = doc.lastAutoTable.finalY + 10;
+
+// Approximate position for the right side (you may tweak this slightly)
+let labelWidth = doc.getTextWidth(labelText);
+let amountWidth = doc.getTextWidth(amountText);
+let totalWidth = labelWidth + amountWidth;
+let startX = pageWidth - 25 - totalWidth;
+
+// Draw label in black
+doc.setTextColor(0, 0, 0);
+doc.text(labelText, startX, finalY);
+
+// Draw digits in green
+doc.setTextColor(0, 128, 0);
+doc.text(amountText, startX + labelWidth, finalY);
+
+// Optional: reset text color to black
+doc.setTextColor(0, 0, 0);
+
+    // Save the PDF
+    doc.save("stock-invoice.pdf");
+}
+
+
+
+function downloadJPG() {
+    // Capture the #planning-summary section as a canvas
+    html2canvas(document.querySelector("#planning-summary")).then(canvas => {
+        // Convert the canvas to JPEG data
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+
+        // Create a link to trigger the image download
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = 'stock-planning-summary.jpg';  // Set the filename for download
+        link.click();  // Trigger the download
+    });
+}
+
+
+    document.getElementById('stock-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const item = document.getElementById('stock-item').value.trim();
+        const quantity = parseInt(document.getElementById('stock-quantity').value.trim());
+        const price = parseFloat(document.getElementById('stock-price').value.trim());
+
+        if (!item || isNaN(quantity) || isNaN(price)) {
+            // Removed alert, no popup message shown
+            return;
+        }
+
+        saveToPlanningStorage(item, quantity, price);
+        document.getElementById('stock-form').reset();
+    });
+
+    // Initial load
+    displaySummaryData(); // No need to load planning data initially
+
+    // Function to delete all items from the summary
+ function deleteAllItems() {
+    // Create modal container
+    const modal = document.createElement('div');
+    modal.id = 'confirmation-modal';
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    modal.style.display = 'flex';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+
+    // Create modal content
+    const modalContent = document.createElement('div');
+    modalContent.style.backgroundColor = 'white';
+    modalContent.style.padding = '30px';
+    modalContent.style.borderRadius = '10px';
+    modalContent.style.textAlign = 'center';
+    modalContent.style.width = '400px'; // Increased width
+    modalContent.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)'; // Optional: add a subtle shadow for better visibility
+
+    // Create modal text
+    const modalText = document.createElement('p');
+    modalText.textContent = 'Are you sure you want to delete all items?';
+    modalText.style.fontSize = '18px'; // Optional: increase font size
+    modalContent.appendChild(modalText);
+
+    // Create container for buttons
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.justifyContent = 'center';
+    buttonContainer.style.marginTop = '20px';
+
+    // Create "Yes" button
+    const yesButton = document.createElement('button');
+    yesButton.textContent = 'Yes';
+    yesButton.style.margin = '0 10px';
+    yesButton.style.padding = '12px 24px';
+    yesButton.style.cursor = 'pointer';
+    yesButton.style.fontSize = '16px';
+    yesButton.style.backgroundColor = '#28a745'; // Green color
+    yesButton.style.color = 'white';
+    yesButton.style.border = 'none';
+    yesButton.style.borderRadius = '5px';
+    yesButton.onclick = function() {
+        // Clear session and permanent data
+        tempPlanningData = [];
+        setData('stockSummaryData', []);
+
+        // Update displays
+        displayStockPlanningData();
+        displaySummaryData();
+
+        // Close modal
+        document.body.removeChild(modal);
+    };
+
+    // Create "No" button
+    const noButton = document.createElement('button');
+    noButton.textContent = 'No';
+    noButton.style.margin = '0 10px';
+    noButton.style.padding = '12px 24px';
+    noButton.style.cursor = 'pointer';
+    noButton.style.fontSize = '16px';
+    noButton.style.backgroundColor = '#dc3545'; // Red color
+    noButton.style.color = 'white';
+    noButton.style.border = 'none';
+    noButton.style.borderRadius = '5px';
+    noButton.onclick = function() {
+        // Close modal without doing anything
+        document.body.removeChild(modal);
+    };
+
+    // Append buttons to the button container
+    buttonContainer.appendChild(yesButton);
+    buttonContainer.appendChild(noButton);
+
+    // Append button container to modal content
+    modalContent.appendChild(buttonContainer);
+
+    // Append modal content to modal
+    modal.appendChild(modalContent);
+
+    // Append modal to the body
+    document.body.appendChild(modal);
+}
+
+
+    // Form submission logic
+    document.getElementById('stock-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const item = document.getElementById('stock-item').value.trim();
+        const quantity = parseInt(document.getElementById('stock-quantity').value.trim());
+        const price = parseFloat(document.getElementById('stock-price').value.trim());
+
+        if (!item || isNaN(quantity) || isNaN(price)) {
+            // Removed alert, no popup message shown
+            return;
+        }
+
+        saveToPlanningStorage(item, quantity, price);
+        document.getElementById('stock-form').reset();
+    });
+
+    // Initial load
+    displaySummaryData(); // No need to load planning data initially
+</script>
+
+</body>
+</html>

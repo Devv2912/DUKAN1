@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Credit - MeriDukaan</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7fa;
+    }
+
+    .header {
+      background-color: #ffffff;
+      height: 80px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2b6cb0;
+      margin-right: 30px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 9999px;
+      background-color: white;
+      color: #111;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      line-height: 1;
+      margin-top: 4px;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #f1f3f4;
+    }
+
+    .login-btn {
+      background-color: #38a169;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 4px;
+    }
+
+    .login-btn:hover {
+      background-color: #2f855a;
+    }
+
+    h1 {
+      color: #cd4dc4;
+    }
+
+    form {
+      margin: 130px auto 0;
+      padding: 50px;
+      max-width: 1100px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      margin-bottom: 40px;
+      border-left: 6px solid #ca28bf;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #cd4dc4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1a4d8f;
+    }
+
+    .panel {
+      margin-top: 100px;
+      padding: 30px 50px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .message {
+      margin-top: 20px;
+      color: green;
+    }
+
+/* Vehicle Type Dropdown styling */
+/* Style the select dropdown similar to input fields */
+.transporter-form {
+  max-width: 1050px;
+  margin: 40px auto;
+  background-color: #f8f8f8;
+  padding: 25px 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  margin-top: 130px;
+}
+
+.transporter-form h1 {
+  text-align: left;
+  color: #333;
+  font-size: 37px;
+}
+
+.transporter-form h3 {
+  text-align: left;
+  font-weight: 400;
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.transporter-form label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #444;
+}
+
+.transporter-form input,
+.transporter-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.transporter-form button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background-color: #007acc;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.transporter-form button:hover {
+  background-color: #005f99;
+}
+
+.transporter-form .message {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 14px;
+  color: green;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="left-section">
+      <div class="brand">MeriDukan</div>
+      <div class="nav-buttons">
+        <button>🏠 Home</button>
+        <button>About</button>
+        <button>Services</button>
+        <button>Contact</button>
+      </div>
+    </div>
+    <button class="login-btn">Login</button>
+  </div>
+
+  <!-- Add Transporter Panel -->
+<form id="transporterForm" class="transporter-form">
+  <h1>Add Transporter</h1>
+  <br/>
+  <h3>Register a new transporter and vehicle details for deliveries.</h3>
+
+  <label for="transporterName">Transporter Name</label>
+  <input type="text" id="transporterName" required placeholder="Enter Transporter Name" pattern="[A-Za-z\s]+" title="Only alphabets and spaces are allowed">
+
+  <label for="contactNumber">Contact Number</label>
+  <input type="tel" id="contactNumber" required pattern="[0-9]{10}" placeholder="10-digit number">
+
+  <label for="vehicleNumber">Vehicle Number</label>
+  <input type="text" id="vehicleNumber" placeholder="e.g., MP09 AB 1234" required>
+
+  <label for="vehicleType">Vehicle Type</label>
+  <select id="vehicleType" required>
+    <option value="" disabled selected>Select type</option>
+    <option value="Mini Truck">Mini Truck</option>
+    <option value="Pickup Van">Pickup Van</option>
+    <option value="Tempo">Tempo</option>
+    <option value="Truck">Truck</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <label for="route">Route/Area</label>
+  <input type="text" id="route" required placeholder="Add Route/Area">
+
+  <label for="charges">Approx Delivery Charges (₹/km)</label>
+  <input type="number" id="charges" required placeholder="Approx charges per km">
+
+  <button type="submit">Add Transporter</button>
+  <p class="message" id="transporterSuccessMsg"></p>
+</form>
+
+
+<script>
+// Function to handle the form submission and save data to localStorage
+document.getElementById("transporterForm").addEventListener("submit", function(event) {
+  event.preventDefault();  // Prevent form submission to avoid page reload
+  
+  // Retrieve form data
+  const transporterName = document.getElementById("transporterName").value;
+  const contactNumber = document.getElementById("contactNumber").value;
+  const vehicleNumber = document.getElementById("vehicleNumber").value;
+  const vehicleType = document.getElementById("vehicleType").value;
+  const route = document.getElementById("route").value;
+  const charges = document.getElementById("charges").value;
+  
+  // Create an object to store the transporter details
+  const transporterDetails = {
+    transporterName,
+    contactNumber,
+    vehicleNumber,
+    vehicleType,
+    route,
+    charges
+  };
+  
+  // Retrieve existing transporters from localStorage or initialize as empty array
+  let transporters = JSON.parse(localStorage.getItem("transporters")) || [];
+  
+  // Add new transporter to the array
+  transporters.push(transporterDetails);
+  
+  // Save updated array back to localStorage
+  localStorage.setItem("transporters", JSON.stringify(transporters));
+  
+  // Show success message
+  document.getElementById("transporterSuccessMsg").textContent = "Transporter added successfully!";
+  
+  // Optionally, clear the form after submission
+  document.getElementById("transporterForm").reset();
+  
+  // Update the Transport Partners tab (for example, by refreshing the list)
+  displayTransporters();
+});
+
+// Function to display transporters from localStorage
+function displayTransporters() {
+  const transporters = JSON.parse(localStorage.getItem("transporters")) || [];
+  const transportersList = document.getElementById("transportersList");
+  
+  // Clear the current list before updating
+  transportersList.innerHTML = "";
+  
+  // Loop through each transporter and create a list item
+  transporters.forEach(transporter => {
+    const transporterItem = document.createElement("div");
+    transporterItem.classList.add("transporter-item");
+    transporterItem.innerHTML = `
+      <p><strong>Transporter:</strong> ${transporter.transporterName}</p>
+      <p><strong>Contact:</strong> ${transporter.contactNumber}</p>
+      <p><strong>Vehicle:</strong> ${transporter.vehicleNumber} (${transporter.vehicleType})</p>
+      <p><strong>Route:</strong> ${transporter.route}</p>
+      <p><strong>Charges:</strong> ₹${transporter.charges} per km</p>
+      <hr>
+    `;
+    transportersList.appendChild(transporterItem);
+  });
+}
+
+// Call displayTransporters on page load to show existing transporters
+window.onload = function() {
+  displayTransporters();
+};
+</script>
+
+</body>
+</html>
