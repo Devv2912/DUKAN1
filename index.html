@@ -149,13 +149,12 @@
       display: block;
     }
 
-  .card-container {
-  display: flex;
-  flex-wrap: nowrap; /* Force single row */
-  justify-content: center;
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 5 cards per row */
   gap: 20px;
   padding: 40px 30px;
-  overflow-x: auto;
+  justify-items: center;
 }
 
 .card {
@@ -175,6 +174,23 @@
   flex-shrink: 0;
   transition: transform 0.3s ease;
 }
+
+.sidebar a.active-tab {
+  background-color: #0e485e; /* Bootstrap-style primary blue */
+  color: #ffffff;
+  font-weight: 500;
+  border-radius: 4px;
+  padding: 10px 15px;
+  display: block;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar a.active-tab:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+
 
 
     .card img {
@@ -236,6 +252,32 @@
         margin-left: 0;
       }
     }
+
+@media (max-width: 1400px) {
+  .card-container {
+    grid-template-columns: repeat(4, 1fr); /* Slightly less than full size */
+  }
+}
+
+@media (max-width: 1200px) {
+  .card-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .card-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+
   </style>
 </head>
 <body>
@@ -246,10 +288,11 @@
     <a href="#" onclick="showPanel('stocks')">📦 Stocks</a>
     <a href="#" onclick="showPanel('billing')">📝 Sales & Billing</a>
     <a href="#" onclick="showPanel('expenses')">📊 Expenses & Profit</a>
+    <a href="#" onclick="showPanel('transportation')">🚚 Transportation</a>
     <a href="#" onclick="showPanel('staff')">👤 Staff Management</a>
     <a href="#" onclick="showPanel('udhaar')">💰 UdhaarKhata</a>
-    <a href="#" onclick="showPanel('suppliers')">🚚 Suppliers</a>
-    <a href="#" onclick="showPanel('payments')">💰 Payments</a>
+    <a href="#" onclick="showPanel('payments')">💵 Payments</a>
+    <a href="#" onclick="showPanel('suppliers')">🛒 Suppliers</a>
     <a href="#" onclick="showPanel('planning')">📆 Planning</a>
     <a href="#" onclick="showPanel('settings')">⚙️ Settings</a>
     <a href="#" onclick="showPanel('logout')">🔒 Logout</a>
@@ -281,9 +324,14 @@
 
     <h1>Dashboard Overview</h1>
     <br/>
-    <h3>Welcome to your store dashboard.</h3>
+    <h2>Welcome to your store dashboard.</h2>
 
     <div class="card-container">
+      <a class="card" href="planning_stock_p.html">
+        <img src="https://cdn-icons-png.flaticon.com/512/4677/4677490.png" alt="Icon">
+        <h2>Add Items for New Stock </h2>
+        <h4>Missing Stock? Add It Now!</h4>
+      </a>
       <a class="card" href="dash_stocks.html">
         <img src="https://cdn-icons-png.flaticon.com/512/4946/4946378.png" alt="Icon">
         <h2>Stocks</h2>
@@ -294,23 +342,60 @@
         <h2>Daily Reports</h2>
          <h4>View daily sales and transaction summaries</h4>
       </a>
-      <a class="card" href="dash_udhaar.html">
+      <a class="card" href="#" onclick="showPanel('udhaar')">
         <img src="https://cdn-icons-png.freepik.com/512/6008/6008154.png" alt="Icon">
         <h2>Udhaar</h2>
          <h4>Track your credit and payment details</h4>
       </a>
-      <a class="card" href="dash_expiry.html">
-        <img src="https://cdn-icons-png.flaticon.com/256/5632/5632472.png" alt="Icon">
-        <h2>Expiry Items</h2>
-        <h4>Get alerted before products expire</h4>
+       <a class="card" href="#" onclick="showPanel('suppliers')">
+        <img src="https://cdn-icons-png.flaticon.com/512/10753/10753547.png" alt="Icon">
+        <h2>Suppliers</h2>
+        <h4>Manage your suppliers and transportation</h4>
       </a>
-      <a class="card" href="dash_payments.html">
+      <a class="card" href="#" onclick="showPanel('payments')">
         <img src="https://cdn-icons-png.flaticon.com/512/6192/6192511.png" alt="Icon">
         <h2>Payments</h2>
-        <h4>Manage your payments</h4>
+        <h4>Manage your payments with suppliers</h4>
       </a>
     </div>
   </div>
+ <!-- Transportation Panel -->
+<div id="transportation" class="panel-section">
+  <h1>Transportation</h1>
+  <br/>
+  <p>Manage all delivery and transport-related tasks</p>
+  <div class="card-container">
+    <a class="card" href="trans_add.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png" alt="Icon">
+      <h2>Add Transporter</h2>
+      <h4>Save new transporter contact & vehicle</h4>
+    </a>
+
+    <a class="card" href="trans_partner.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/10773/10773657.png" alt="Icon">
+      <h2>Transport Partners</h2>
+      <h4>View and contact saved transporters</h4>
+    </a>
+
+    <a class="card" href="trans_ad.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/1611/1611179.png" alt="Icon">
+      <h2>Add Delivery</h2>
+      <h4>Create and assign delivery tasks</h4>
+    </a>
+
+    <a class="card" href="trans_ds.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/10847/10847584.png" alt="Icon">
+      <h2>Delivery Schedule</h2>
+      <h4>Check upcoming delivery timelines</h4>
+    </a>
+
+    <a class="card" href="trans_history.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png" alt="Icon">
+      <h2>Delivery History</h2>
+      <h4>Track past delivery logs</h4>
+    </a>
+  </div>
+</div>
 
 <!-- Stocks Panel -->
 <div id="stocks" class="panel-section">
@@ -340,6 +425,11 @@
       <h2>Stock History</h2>
       <h4>Track historical stock movements</h4>
     </a>
+     <a class="card" href="dash_expiry.html">
+        <img src="https://cdn-icons-png.flaticon.com/256/5632/5632472.png" alt="Icon">
+        <h2>Expiry Items</h2>
+        <h4>Get alerted before products expire</h4>
+      </a>
   </div>
 </div>
 
@@ -385,7 +475,7 @@
   <h2>Track your business expenses and profits in real-time.</h2>
 
   <div class="card-container">
-    <a class="card" href="#">
+    <a class="card" href="ep_track.html">
       <img src="https://cdn-icons-png.flaticon.com/512/1828/1828474.png" alt="Icon">
       <h2>Track Expenses</h2>
       <h4>Monitor your expenses across different categories</h4>
@@ -438,6 +528,7 @@
   </div>
 </div>
 
+
   <!-- Udhaar Khata Panel -->
   <div id="udhaar" class="panel-section">
   
@@ -471,46 +562,12 @@
     </div>
   </div>
 
-   <!-- Suppliers Panel -->
-  <div id="suppliers" class="panel-section">
-    
-    <h1>Suppliers</h1>
-    <br/>
-    <h3>Manage your supplier details below.</h3>
-
-    <div class="card-container">
-       <a class="card" href="supp_ns.html">
-    <img src="https://cdn-icons-png.flaticon.com/512/3321/3321752.png" alt="Icon">
-    <h2>Order New Stock</h2>
-    <h4>Place new orders with suppliers</h4>
-  </a>
-  <a class="card" href="supp_add.html">
-    <img src="https://cdn-icons-png.flaticon.com/512/9775/9775776.png" alt="Icon">
-    <h2>Add Supplier</h2>
-    <h4>Add a new supplier to your records</h4>
-  </a>
-  <a class="card" href="supp_trans.html">
-    <img src="https://cdn-icons-png.flaticon.com/512/3747/3747425.png" alt="Icon">
-    <h2>Transportation</h2>
-    <h4>Contact your Delivery Partners</h4>
-  </a>
-
-  <a class="card" href="supp_manage.html">
-    <img src="https://cdn-icons-png.flaticon.com/512/6102/6102566.png" alt="Icon">
-    <h2>Manage Supplier</h2>
-    <h4>Edit or update supplier information</h4>
-  </a>
-
-  
-</div>
-</div>
-
-<!-- Payments -->
+  <!-- Payments -->
   <div id="payments" class="panel-section">
     
     <h1>Payments</h1>
     <br/>
-    <h3>Manage your payments with suppliers. </h3>
+    <h2>Manage your payments with suppliers. </h2>
 
     <div class="card-container">
       <a class="card" href="payments_ad.html">
@@ -529,6 +586,40 @@
 </div>
 
 
+   <!-- Suppliers Panel -->
+  <div id="suppliers" class="panel-section">
+    
+    <h1>Suppliers</h1>
+    <br/>
+    <h2>Manage your suppliers and transportation.</h2>
+
+    <div class="card-container">
+       <a class="card" href="supp_ns.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/3321/3321752.png" alt="Icon">
+    <h2>Order New Stock</h2>
+    <h4>Place new orders with suppliers</h4>
+  </a>
+  <a class="card" href="supp_add.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/9775/9775776.png" alt="Icon">
+    <h2>Add Supplier</h2>
+    <h4>Add a new supplier to your records</h4>
+  </a>
+  <a class="card" href="#" onclick="showPanel('transportation')">
+    <img src="https://cdn-icons-png.flaticon.com/512/3747/3747425.png" alt="Icon">
+    <h2>Transportation</h2>
+    <h4>Contact your Delivery Partners</h4>
+  </a>
+
+  <a class="card" href="supp_manage.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/6102/6102566.png" alt="Icon">
+    <h2>Manage Supplier</h2>
+    <h4>Edit or update supplier information</h4>
+  </a>
+
+  
+</div>
+</div>
+
 
   <!-- Planning Panel -->
 <div id="planning" class="panel-section">
@@ -537,31 +628,60 @@
   <h2>Plan ahead for stock, sales, and expenses to keep your business running smoothly.</h2>
 
   <div class="card-container">
-    <a class="card" href="#">
-      <img src="https://cdn-icons-png.flaticon.com/512/2232/2232768.png" alt="Icon">
-      <h2>Stock Forecasting</h2>
-      <h4>Predict and plan stock levels based on sales trends</h4>
-    </a>
-    <a class="card" href="#">
-      <img src="https://cdn-icons-png.flaticon.com/512/3012/3012137.png" alt="Icon">
-      <h2>Sales Projections</h2>
-      <h4>Estimate future sales to adjust inventory and budget</h4>
-    </a>
-    <a class="card" href="#">
-      <img src="https://cdn-icons-png.flaticon.com/512/2600/2600301.png" alt="Icon">
-      <h2>Expense Planning</h2>
-      <h4>Plan for expenses and keep track of your budget</h4>
-    </a>
-    <a class="card" href="#">
-      <img src="https://cdn-icons-png.flaticon.com/512/2763/2763104.png" alt="Icon">
-      <h2>Profit Estimation</h2>
-      <h4>Calculate expected profits based on projections</h4>
-    </a>
-    <a class="card" href="#">
-      <img src="https://cdn-icons-png.flaticon.com/512/1314/1314632.png" alt="Icon">
-      <h2>Task Scheduling</h2>
-      <h4>Plan tasks, deadlines, and assign responsibilities</h4>
-    </a>
+  <a class="card" href="planning_stock_p.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/3601/3601021.png" alt="Icon">
+    <h2>Stock Planning</h2>
+    <h4>Manage low stock alerts, seasonal stock, and reorder planning</h4>
+  </a>
+  <a class="card" href="planning_pp.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Icon">
+    <h2>Purchase Planning</h2>
+    <h4>Schedule orders and allocate budgets for purchases</h4>
+  </a>
+  <a class="card" href="planning_fp.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/684/684809.png" alt="Icon">
+    <h2>Financial Planning</h2>
+    <h4>Plan budgets, set profit goals, and forecast expenses</h4>
+  </a>
+  </a>
+  <a class="card" href="planning_calendar.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/747/747310.png" alt="Icon">
+    <h2>Calendar View</h2>
+    <h4>Visual calendar to track all upcoming activities</h4>
+  </a>
+  <a class="card" href="planning_reminders.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/1827/1827370.png" alt="Icon">
+    <h2>Reminders</h2>
+    <h4>Set and manage reminders for key planning activities</h4>
+  </a>
+  <a class="card" href="planning_sf.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/2232/2232768.png" alt="Icon">
+    <h2>Stock Forecasting</h2>
+    <h4>Predict and plan stock levels based on sales trends</h4>
+  </a>
+  <a class="card" href="planning_sp.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/3012/3012137.png" alt="Icon">
+    <h2>Sales Projections</h2>
+    <h4>Estimate future sales to adjust inventory and budget</h4>
+  </a>
+  <a class="card" href="planning_ep.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/2600/2600301.png" alt="Icon">
+    <h2>Expense Planning</h2>
+    <h4>Plan for expenses and keep track of your budget</h4>
+  </a>
+  <a class="card" href="planning_pe.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/2763/2763104.png" alt="Icon">
+    <h2>Profit Estimation</h2>
+    <h4>Calculate expected profits based on projections</h4>
+  </a>
+  <a class="card" href="planning_ts.html">
+    <img src="https://cdn-icons-png.flaticon.com/512/1314/1314632.png" alt="Icon">
+    <h2>Task Scheduling</h2>
+    <h4>Plan tasks, deadlines, and assign responsibilities</h4>
+  </a>
+</div>
+
+    
   </div>
 </div>
 
@@ -601,28 +721,13 @@
   </div>
 </div>
 
-<!-- Logout Panel -->
-<div id="logout" class="panel-section">
-  <h1>Logout</h1>
-  <br/>
-  <h2>Click below to securely log out of your account.</h2>
-
-  <div class="card-container">
-    <a class="card" href="logout_url_here">
-      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828771.png" alt="Icon">
-      <h2>Logout</h2>
-      <h4>Click here to securely log out of your account</h4>
-    </a>
-  </div>
-</div>
-
-
   <!-- Footer -->
   <footer>
     &copy; 2025 MeriDukaan. All rights reserved.
   </footer>
 
  <!-- JavaScript -->
+<!-- JavaScript -->
 <script>
   function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
@@ -634,11 +739,22 @@
   }
 
   function showPanel(panelId) {
+    // Hide all panels
     const panels = document.querySelectorAll('.panel-section');
     panels.forEach(panel => panel.classList.remove('active'));
 
+    // Show the selected panel
     const target = document.getElementById(panelId);
     if (target) target.classList.add('active');
+
+    // Highlight the active sidebar tab
+    const sidebarLinks = document.querySelectorAll('.sidebar a');
+    sidebarLinks.forEach(link => link.classList.remove('active-tab'));
+
+    const clickedLink = Array.from(sidebarLinks).find(link => 
+      link.getAttribute('onclick')?.includes(`'${panelId}'`)
+    );
+    if (clickedLink) clickedLink.classList.add('active-tab');
   }
 
   function getPanelFromURL() {
@@ -651,6 +767,7 @@
     showPanel(panel);
   };
 </script>
+
 
 
 </body>
