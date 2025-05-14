@@ -182,6 +182,34 @@
       background-color: #c53030;
     }
 
+       .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 40px;
+      margin-bottom: 25px;
+    }
+
+    .filter-item {
+      flex: 1;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filter-item label {
+      font-size: 15px;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .filter-item input {
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      width: 100%;
+    }
+
   </style>
 </head>
 <body>
@@ -201,61 +229,78 @@
   <div class="panel">
     <h1>Transport Partners</h1>
 
+           <!-- Filters -->
+    <div class="filters">
+      <div class="filter-item">
+        <label for="searchName">Search by Name:</label>
+        <input type="text" id="searchName" placeholder="Enter customer name">
+      </div>
+    </div>
+
+
     <div id="transportersList"></div>
   </div>
 
-  <script>
-    // Function to display transporters from localStorage
-    function displayTransporters() {
-      const transporters = JSON.parse(localStorage.getItem("transporters")) || [];
-      const transportersList = document.getElementById("transportersList");
-      
-      // Clear the current list before updating
-      transportersList.innerHTML = "";
-      
-      // Loop through each transporter and create a card
-      transporters.forEach((transporter, index) => {
-        const transporterCard = document.createElement("div");
-        transporterCard.classList.add("transporter-card");
-        transporterCard.innerHTML = `
-          <h3>${transporter.transporterName}</h3>
-          <p><strong>Contact:</strong> ${transporter.contactNumber}</p>
-          <p><strong>Vehicle:</strong> ${transporter.vehicleNumber} (${transporter.vehicleType})</p>
-          <p><strong>Route:</strong> ${transporter.route}</p>
-          <p><strong>Charges:</strong> ₹${transporter.charges} per km</p>
-          
-          <!-- Contact Us Buttons -->
-          <div class="contact-us-section">
-            <button class="call-us-btn" onclick="window.location.href='tel:${transporter.contactNumber}'">Call Us</button>
-            <button class="whatsapp-btn" onclick="window.location.href='https://wa.me/${transporter.contactNumber}'">Chat with Us on WhatsApp</button>
-          </div>
-          
-          <!-- Edit and Delete Buttons -->
-          <div class="actions">
-            <button class="delete-btn" onclick="deleteTransporter(${index})">Delete</button>
-          </div>
-        `;
-        transportersList.appendChild(transporterCard);
-      });
-    }
+<script>
+  // Function to display transporters from localStorage (with optional filter)
+  function displayTransporters(filterName = "") {
+    const transporters = JSON.parse(localStorage.getItem("transporters")) || [];
+    const transportersList = document.getElementById("transportersList");
 
-    // Function to delete transporter from localStorage
-    function deleteTransporter(index) {
-      const transporters = JSON.parse(localStorage.getItem("transporters")) || [];
-      transporters.splice(index, 1);  // Remove the transporter from the array
-      
-      // Update localStorage
-      localStorage.setItem("transporters", JSON.stringify(transporters));
-      
-      // Re-display the updated list
-      displayTransporters();
-    }
+    // Clear current list
+    transportersList.innerHTML = "";
 
-    // Call displayTransporters on page load to show existing transporters
-    window.onload = function() {
-      displayTransporters();
-    };
-  </script>
+    // Filter transporters if filterName is provided
+    const filteredTransporters = transporters.filter(transporter =>
+      transporter.transporterName.toLowerCase().includes(filterName.toLowerCase())
+    );
+
+    // Display each filtered transporter
+    filteredTransporters.forEach((transporter, index) => {
+      const transporterCard = document.createElement("div");
+      transporterCard.classList.add("transporter-card");
+      transporterCard.innerHTML = `
+        <h3>${transporter.transporterName}</h3>
+        <p><strong>Contact:</strong> ${transporter.contactNumber}</p>
+        <p><strong>Vehicle:</strong> ${transporter.vehicleNumber} (${transporter.vehicleType})</p>
+        <p><strong>Route:</strong> ${transporter.route}</p>
+        <p><strong>Charges:</strong> ₹${transporter.charges} per km</p>
+
+        <!-- Contact Us Buttons -->
+        <div class="contact-us-section">
+          <button class="call-us-btn" onclick="window.location.href='tel:${transporter.contactNumber}'">Call Us</button>
+          <button class="whatsapp-btn" onclick="window.location.href='https://wa.me/${transporter.contactNumber}'">Chat on WhatsApp</button>
+        </div>
+
+        <!-- Edit and Delete Buttons -->
+        <div class="actions">
+          <button class="delete-btn" onclick="deleteTransporter(${index})">Delete</button>
+        </div>
+      `;
+      transportersList.appendChild(transporterCard);
+    });
+  }
+
+  // Function to delete transporter from localStorage
+  function deleteTransporter(index) {
+    const transporters = JSON.parse(localStorage.getItem("transporters")) || [];
+    transporters.splice(index, 1);
+    localStorage.setItem("transporters", JSON.stringify(transporters));
+    displayTransporters(document.getElementById("searchName").value); // Apply current filter
+  }
+
+  // Event listener for search input
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("searchName");
+
+    searchInput.addEventListener("input", function () {
+      displayTransporters(searchInput.value);
+    });
+
+    displayTransporters(); // Initial load
+  });
+</script>
+
 
 </body>
 </html>
