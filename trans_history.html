@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Delivery History - MeriDukaan</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7fa;
+    }
+
+    .header {
+      background-color: #ffffff;
+      height: 80px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2b6cb0;
+      margin-right: 30px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 9999px;
+      background-color: white;
+      color: #111;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      line-height: 1;
+      margin-top: 4px;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #f1f3f4;
+    }
+
+    .login-btn {
+      background-color: #38a169;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 4px;
+    }
+
+    .login-btn:hover {
+      background-color: #2f855a;
+    }
+
+    h1 {
+      color: #cd4dc4;
+      margin-bottom: 20px;
+    }
+
+ .delivery-history-container {
+  margin-top: 100px;
+  padding: 30px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  padding-top: 20px;  /* Add top padding to create space between the container and text */
+  border-left: 6px solid #cd4dc4;
+}
+
+
+    .delivery-item {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+
+    .delivery-item p {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+
+    .delivery-item strong {
+      font-weight: bold;
+    }
+
+    .delivery-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+
+    /* Style for the transporter name */
+    .transporter-name {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2b6cb0;
+    }
+
+    .no-deliveries {
+      font-size: 18px;
+      color: #888;
+      text-align: center;
+    }
+
+        .delete-btn {
+      background-color: #ff4d4d;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    .delete-btn:hover {
+      background-color: #e60000;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 40px;
+      margin-bottom: 25px;
+    }
+
+    .filter-item {
+      flex: 1;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filter-item label {
+      font-size: 15px;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .filter-item input {
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      width: 100%;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="left-section">
+      <div class="brand">MeriDukaan</div>
+      <div class="nav-buttons">
+        <button>🏠 Home</button>
+        <button>About</button>
+        <button>Services</button>
+        <button>Contact</button>
+      </div>
+    </div>
+    <button class="login-btn">Login</button>
+  </div>
+
+  <!-- Delivery History Section -->
+  <div class="delivery-history-container">
+    <h1>Delivery History</h1>
+
+       <!-- Filters -->
+    <div class="filters">
+      <div class="filter-item">
+        <label for="searchName">Search by Name:</label>
+        <input type="text" id="searchName" placeholder="Enter customer name">
+      </div>
+      <div class="filter-item">
+        <label for="searchDate">Search by Date:</label>
+        <input type="date" id="searchDate">
+      </div>
+    </div>
+
+    <div id="deliveryHistoryList">
+      <!-- Delivery History will be displayed here -->
+    </div>
+    <br/>
+    <p id="noDeliveriesMessage" class="no-deliveries"></p>
+  
+    </div>
+
+<script>
+  // Capitalize the first letter
+  function capitalize(text) {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+  // Delete delivery by index
+  function deleteDelivery(index) {
+    let deliveries = JSON.parse(localStorage.getItem("deliveries")) || [];
+    deliveries.splice(index, 1);
+    localStorage.setItem("deliveries", JSON.stringify(deliveries));
+    displayDeliveryHistory(); // Re-render the list
+  }
+
+  // Main display function with optional filters
+  function displayDeliveryHistory(nameFilter = "", dateFilter = "") {
+    const deliveries = JSON.parse(localStorage.getItem("deliveries")) || [];
+    const deliveryHistoryList = document.getElementById("deliveryHistoryList");
+    const noDeliveriesMessage = document.getElementById("noDeliveriesMessage");
+
+    deliveryHistoryList.innerHTML = ""; // Clear existing
+
+    // Apply filters
+    const filteredDeliveries = deliveries.filter(delivery => {
+      const nameMatch = delivery.transporter.toLowerCase().includes(nameFilter.toLowerCase());
+      const dateMatch = dateFilter === "" || delivery.deliveryDate === dateFilter;
+      return nameMatch && dateMatch;
+    });
+
+    if (filteredDeliveries.length === 0) {
+      noDeliveriesMessage.textContent = "No matching delivery history found.";
+      return;
+    }
+
+    noDeliveriesMessage.textContent = "";
+
+    filteredDeliveries.forEach((delivery, index) => {
+      const deliveryItem = document.createElement("div");
+      deliveryItem.classList.add("delivery-item");
+      deliveryItem.innerHTML = `
+        <p><span class="transporter-name">${delivery.transporter}</span></p>
+        <p><strong>Phone:</strong> ${delivery.transporterPhone}</p>
+        <p><strong>Delivery Date:</strong> ${delivery.deliveryDate}</p>
+        <p><strong>Delivery Location:</strong> ${delivery.deliveryLocation}</p>
+        <p><strong>Delivery Type:</strong> ${capitalize(delivery.deliveryType)}</p>
+        <p><strong>Priority:</strong> ${capitalize(delivery.deliveryPriority)}</p>
+        <p><strong>Charges:</strong> ₹${delivery.deliveryCharges}</p>
+        <p><strong>Payment Status:</strong> ${capitalize(delivery.paymentStatus)}</p>
+        <p><strong>Items:</strong> ${delivery.items}</p>
+        ${delivery.deliveryNotes ? `<p><strong>Notes:</strong> ${delivery.deliveryNotes}</p>` : ''}
+        <button class="delete-btn" onclick="deleteDelivery(${index})">Delete</button>
+      `;
+      deliveryHistoryList.appendChild(deliveryItem);
+    });
+  }
+
+  // Event listener for filter inputs
+  function addFilterListeners() {
+    const nameInput = document.getElementById("searchName");
+    const dateInput = document.getElementById("searchDate");
+
+    nameInput.addEventListener("input", () => {
+      displayDeliveryHistory(nameInput.value, dateInput.value);
+    });
+
+    dateInput.addEventListener("input", () => {
+      displayDeliveryHistory(nameInput.value, dateInput.value);
+    });
+  }
+
+  // Initial setup
+  window.onload = function () {
+    displayDeliveryHistory();
+    addFilterListeners();
+  };
+</script>
+
+
+</body>
+</html>
