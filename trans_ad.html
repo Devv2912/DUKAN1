@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Delivery - MeriDukaan</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f7fa;
+    }
+
+    .header {
+      background-color: #ffffff;
+      height: 80px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2b6cb0;
+      margin-right: 30px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      padding: 10px 20px;
+      border: 1px solid #ccc;
+      border-radius: 9999px;
+      background-color: white;
+      color: #111;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      line-height: 1;
+      margin-top: 4px;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #f1f3f4;
+    }
+
+    .login-btn {
+      background-color: #38a169;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 4px;
+    }
+
+    .login-btn:hover {
+      background-color: #2f855a;
+    }
+
+    h1 {
+      color: #2f855a;
+      margin-bottom: 20px;
+    }
+
+    .panel {
+      margin-top: 130px;
+      padding: 30px 50px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      margin-bottom: 50px;
+      border-left: 6px solid #2f855a;
+
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 40px;
+      margin-bottom: 25px;
+    }
+
+    .filter-item {
+      flex: 1;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filter-item label {
+      font-size: 15px;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .filter-item input {
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    .credit-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: 8px;
+    }
+
+    .customer-record {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      background-color: #fefefe;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      border-left: 6px solid #2f855a;
+    }
+
+    .customer-header h2 {
+      margin: 0 0 10px 0;
+      font-size: 20px;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+
+    .credit-record {
+      margin-bottom: 15px;
+      padding: 10px;
+      background-color: #f7f7f7;
+      border-radius: 8px;
+    }
+
+    .credit-record p {
+      color: #555;
+      font-size: 14px;
+    }
+
+    .credit-record:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .credit-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .credit-details span {
+      color: #555;
+      font-size: 15px;
+    }
+
+    .total-credit {
+      text-align: right;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 0.5rem 0.75rem;
+      color: #2c3e50;
+      border-top: 1px solid #ccc;
+      margin-top: 0.5rem;
+    }
+
+    .date {
+      font-size: 14px;
+      color: #777;
+    }
+
+    .delete-icon {
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      fill: #e53e3e;
+      transition: transform 0.2s ease;
+    }
+
+    .delete-icon:hover {
+      transform: scale(1.2);
+      fill: #c53030;
+    }
+
+    form label {
+      font-size: 15px;
+      margin-bottom: 6px;
+      color: #333;
+      display: block;
+      margin-top: 15px;
+    }
+
+    form input,
+    form textarea,
+    form select {
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      width: 100%;
+      font-family: inherit;
+      margin-top: 4px;
+      background-color: #fff;
+    }
+
+    form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    form button[type="submit"] {
+      margin-top: 20px;
+      padding: 10px 24px;
+      background-color: #2f855a;
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    form button[type="submit"]:hover {
+      background-color: #276749;
+    }
+
+    .message {
+      margin-top: 12px;
+      font-size: 15px;
+      color: #38a169;
+      font-weight: 500;
+      display: none;
+    }
+
+     .whatsapp-button {
+     margin-top: 20px;
+      padding: 10px 24px;
+      background-color: #13e37b;
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .whatsapp-button:hover {
+      background-color: #128C7E;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="left-section">
+      <div class="brand">MeriDukan</div>
+      <div class="nav-buttons">
+        <button>🏠 Home</button>
+        <button>About</button>
+        <button>Services</button>
+        <button>Contact</button>
+      </div>
+    </div>
+    <button class="login-btn">Login</button>
+  </div>
+
+  <!-- Add Delivery Panel -->
+  <div class="panel">
+    <h1>Add Delivery</h1>
+    <p style="margin-bottom: 25px;">Please fill in the details for the delivery you want to add.</p>
+
+    <form id="deliveryForm">
+      <label for="assignedTransporter">Assign Transporter</label>
+      <select id="assignedTransporter" required>
+        <option value="" disabled selected>Select a transporter</option>
+        <!-- Filled dynamically -->
+      </select>
+
+      <label for="transporterPhone">Transporter Phone Number</label>
+      <input type="text" id="transporterPhone" placeholder="Transporter phone number" placeholder="Phone Number" disabled />
+
+      <label for="deliveryDate">Delivery Date</label>
+      <input type="date" id="deliveryDate" required />
+
+      <label for="deliveryLocation">Delivery Location</label>
+      <input type="text" id="deliveryLocation" required placeholder="Enter delivery area or address" oninput="toUpperCaseInput(this)" />
+
+       <label for="deliveryType">Delivery Type</label>
+      <select id="deliveryType" required>
+        <option value="" disabled selected>Select delivery type</option>
+        <option value="standard">Standard</option>
+        <option value="express">Express</option>
+      </select>
+
+      <!-- Additional Fields -->
+      <label for="deliveryPriority">Delivery Priority</label>
+      <select id="deliveryPriority" required>
+        <option value="" disabled selected>Select priority</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+
+      <label for="deliveryCharges">Delivery Charges</label>
+      <input type="number" id="deliveryCharges" required placeholder="Enter delivery charges" />
+
+      <label for="paymentStatus">Payment Status</label>
+      <select id="paymentStatus" required>
+        <option value="" disabled selected>Select payment status</option>
+        <option value="paid">Paid</option>
+        <option value="pending">Pending</option>
+      </select>
+
+      <label for="items">Items to Deliver</label>
+      <textarea id="items" required placeholder="List of items..." oninput="toUpperCaseInput(this)"></textarea>
+
+      <label for="deliveryNotes">Additional Notes</label>
+      <textarea id="deliveryNotes" placeholder="Enter any special delivery instructions" oninput="toUpperCaseInput(this)"></textarea>
+
+           <button type="submit">Save Delivery</button>
+      <div class="message" id="deliverySuccessMsg">Delivery has been successfully added!</div>
+      <br/>
+       <!-- WhatsApp Button -->
+      <button type="button" id="sendWhatsappButton" class="whatsapp-button" style="display: none;">
+        Send WhatsApp Message
+      </button>
+    </form>
+  </div>
+  
+
+
+  <script>
+    function toUpperCaseInput(input) {
+      input.value = input.value.toUpperCase(); // Converts input value to uppercase
+    }
+
+    document.getElementById("deliveryForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // Prevent the form from submitting and page refresh
+
+  // Collect form data
+  const formData = {
+    transporter: document.getElementById("assignedTransporter").value,
+    transporterPhone: document.getElementById("transporterPhone").value,
+    deliveryDate: document.getElementById("deliveryDate").value,
+    deliveryLocation: document.getElementById("deliveryLocation").value,
+    deliveryType: document.getElementById("deliveryType").value,
+    deliveryPriority: document.getElementById("deliveryPriority").value,
+    deliveryCharges: document.getElementById("deliveryCharges").value,
+    paymentStatus: document.getElementById("paymentStatus").value,
+    items: document.getElementById("items").value,
+    deliveryNotes: document.getElementById("deliveryNotes").value
+  };
+
+  // Get existing deliveries or initialize an empty array
+  let deliveries = JSON.parse(localStorage.getItem("deliveries")) || [];
+
+  // Push the new delivery data to the array
+  deliveries.push(formData);
+
+  // Save the updated deliveries array back to localStorage
+  localStorage.setItem("deliveries", JSON.stringify(deliveries));
+
+  // Show success message
+  const successMessage = document.getElementById("deliverySuccessMsg");
+  successMessage.style.display = "block";
+  setTimeout(() => successMessage.style.display = "none", 3000); // Hide after 3 seconds
+
+  // Update the delivery history display
+  displayDeliveryHistory();
+
+  // Enable WhatsApp button to send message
+  document.getElementById("sendWhatsappButton").style.display = "inline-block";
+  
+  // Clear the form fields after submission
+  document.getElementById("deliveryForm").reset();
+});
+
+// Fetch transporters data from localStorage and update the dropdown list
+function loadTransporters() {
+  const transporters = JSON.parse(localStorage.getItem("transporters")) || [];
+  const transporterDropdown = document.getElementById("assignedTransporter");
+
+  transporters.forEach(transporter => {
+    const option = document.createElement("option");
+    option.value = transporter.transporterName;
+    option.textContent = transporter.transporterName;
+    option.dataset.phone = transporter.contactNumber;  // Store the phone number in a data attribute
+    transporterDropdown.appendChild(option);
+  });
+}
+
+// Automatically fill the phone number when a transporter is selected
+document.getElementById("assignedTransporter").addEventListener("change", function() {
+  const selectedOption = this.selectedOptions[0];
+  const phoneField = document.getElementById("transporterPhone");
+
+  if (selectedOption) {
+    phoneField.value = selectedOption.dataset.phone || "";  // Set the phone number
+
+    // Enable WhatsApp button if a transporter is selected
+    document.getElementById("sendWhatsappButton").style.display = "inline-block";
+  }
+});
+
+// Function to send WhatsApp message with full delivery details
+document.getElementById("sendWhatsappButton").addEventListener("click", function(event) {
+  event.preventDefault(); // Prevent form from submitting and refreshing the page
+
+  const phoneNumber = document.getElementById("transporterPhone").value;
+  const deliveryDate = document.getElementById("deliveryDate").value;
+  const deliveryLocation = document.getElementById("deliveryLocation").value;
+  const deliveryType = document.getElementById("deliveryType").value;
+  const deliveryPriority = document.getElementById("deliveryPriority").value;
+  const deliveryCharges = document.getElementById("deliveryCharges").value;
+  const paymentStatus = document.getElementById("paymentStatus").value;
+  const items = document.getElementById("items").value;
+  const deliveryNotes = document.getElementById("deliveryNotes").value;
+
+  // Check if all fields are filled
+  if (!phoneNumber || !deliveryDate || !deliveryLocation || !deliveryType || !deliveryPriority || !deliveryCharges || !paymentStatus || !items) {
+    alert("Please fill all the required fields before sending the message.");
+    return; // Stop if any required field is empty
+  }
+
+  // Construct message with all the details and convert it to uppercase
+// Construct message with all the details, making headings bold
+const message = encodeURIComponent(`
+  *HELLO, PLEASE BE INFORMED ABOUT THE NEW DELIVERY.*
+
+  *PLEASE CHECK THE DETAILS:*
+
+  - *DELIVERY DATE:* ${deliveryDate}
+  - *DELIVERY LOCATION:* ${deliveryLocation.toUpperCase()}
+  - *DELIVERY TYPE:* ${deliveryType.toUpperCase()}
+  - *DELIVERY PRIORITY:* ${deliveryPriority.toUpperCase()}
+  - *DELIVERY CHARGES:* ₹${deliveryCharges}
+  - *PAYMENT STATUS:* ${paymentStatus.toUpperCase()}
+  - *ITEMS TO DELIVER:* ${items.toUpperCase()}
+  - *ADDITIONAL NOTES:* ${deliveryNotes.toUpperCase()}
+
+  *PLEASE CONFIRM IF YOU ARE READY TO HANDLE THIS DELIVERY.*
+`);
+
+
+  // If phone number is provided, send message via WhatsApp
+  if (phoneNumber) {
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappURL, "_blank"); // Open WhatsApp in a new tab
+  }
+});
+
+// Function to display the delivery history
+function displayDeliveryHistory() {
+  const deliveries = JSON.parse(localStorage.getItem("deliveries")) || [];
+  const deliveryHistoryList = document.getElementById("deliveryHistoryList");
+
+  deliveryHistoryList.innerHTML = ""; // Clear the list before adding items
+
+  deliveries.forEach(delivery => {
+    const deliveryItem = document.createElement("div");
+    deliveryItem.classList.add("delivery-item");
+    deliveryItem.innerHTML = `
+      <p><strong>Delivery Date:</strong> ${delivery.deliveryDate}</p>
+      <p><strong>Transporter:</strong> ${delivery.transporter}</p>
+      <p><strong>Location:</strong> ${delivery.deliveryLocation}</p>
+      <p><strong>Type:</strong> ${delivery.deliveryType}</p>
+      <p><strong>Priority:</strong> ${delivery.deliveryPriority}</p>
+      <p><strong>Charges:</strong> ₹${delivery.deliveryCharges}</p>
+      <p><strong>Payment Status:</strong> ${delivery.paymentStatus}</p>
+      <p><strong>Items:</strong> ${delivery.items}</p>
+      <p><strong>Notes:</strong> ${delivery.deliveryNotes}</p>
+      <hr>
+    `;
+    deliveryHistoryList.appendChild(deliveryItem);
+  });
+}
+
+// Load transporters data and display delivery history on page load
+loadTransporters();
+displayDeliveryHistory();
+
+  </script>
+ </body>
+</html>
