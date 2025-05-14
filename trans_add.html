@@ -82,78 +82,26 @@
       background-color: #2f855a;
     }
 
-    h1 {
-      color: #cd4dc4;
-    }
-
-    form {
-      margin: 130px auto 0;
-      padding: 50px;
-      max-width: 1100px;
-      background-color: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-      margin-bottom: 40px;
-      border-left: 6px solid #ca28bf;
-      position: relative;
-    }
-
-    label {
-      display: block;
-      margin: 15px 0 5px;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #cd4dc4;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #1a4d8f;
-    }
-
-    .panel {
-      margin-top: 100px;
+    
+/* Vehicle Type Dropdown styling */
+/* Style the select dropdown similar to input fields */
+.transporter-form {
+   margin-top: 130px;
       padding: 30px 50px;
       max-width: 1100px;
       margin-left: auto;
       margin-right: auto;
-    }
-
-    .message {
-      margin-top: 20px;
-      color: green;
-    }
-
-/* Vehicle Type Dropdown styling */
-/* Style the select dropdown similar to input fields */
-.transporter-form {
-  max-width: 1050px;
-  margin: 40px auto;
-  background-color: #f8f8f8;
-  padding: 25px 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
-  margin-top: 130px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      margin-bottom: 50px;
+      border-left: 6px solid #5b3ce5;
 }
 
 .transporter-form h1 {
   text-align: left;
-  color: #333;
-  font-size: 37px;
+  color: #5b3ce5;
+  font-size: 40px;
 }
 
 .transporter-form h3 {
@@ -186,7 +134,7 @@
   margin-top: 20px;
   width: 100%;
   padding: 12px;
-  background-color: #007acc;
+  background-color: #5b3ce5;
   color: #fff;
   font-size: 16px;
   border: none;
@@ -196,13 +144,13 @@
 }
 
 .transporter-form button:hover {
-  background-color: #005f99;
+  background-color:#684edc;
 }
 
 .transporter-form .message {
   margin-top: 10px;
   text-align: center;
-  font-size: 14px;
+  font-size: 20px;
   color: green;
 }
 
@@ -232,13 +180,13 @@
   <h3>Register a new transporter and vehicle details for deliveries.</h3>
 
   <label for="transporterName">Transporter Name</label>
-  <input type="text" id="transporterName" required placeholder="Enter Transporter Name" pattern="[A-Za-z\s]+" title="Only alphabets and spaces are allowed">
+  <input type="text" id="transporterName" required placeholder="Enter Transporter Name" pattern="[A-Za-z\s]+" title="Only alphabets and spaces are allowed" oninput="toUpperCaseInput(this)">
 
   <label for="contactNumber">Contact Number</label>
   <input type="tel" id="contactNumber" required pattern="[0-9]{10}" placeholder="10-digit number">
 
   <label for="vehicleNumber">Vehicle Number</label>
-  <input type="text" id="vehicleNumber" placeholder="e.g., MP09 AB 1234" required>
+  <input type="text" id="vehicleNumber" placeholder="e.g., MP09 AB 1234" name="vehicleNumber" oninput="toUpperCaseInput(this)" required>
 
   <label for="vehicleType">Vehicle Type</label>
   <select id="vehicleType" required>
@@ -251,7 +199,7 @@
   </select>
 
   <label for="route">Route/Area</label>
-  <input type="text" id="route" required placeholder="Add Route/Area">
+  <input type="text" id="route" required placeholder="Add Route/Area" oninput="toUpperCaseInput(this)">
 
   <label for="charges">Approx Delivery Charges (₹/km)</label>
   <input type="number" id="charges" required placeholder="Approx charges per km">
@@ -262,10 +210,14 @@
 
 
 <script>
+
+  function toUpperCaseInput(input) {
+      input.value = input.value.toUpperCase(); // Converts input value to uppercase
+    }
 // Function to handle the form submission and save data to localStorage
 document.getElementById("transporterForm").addEventListener("submit", function(event) {
-  event.preventDefault();  // Prevent form submission to avoid page reload
-  
+  event.preventDefault();  // Prevent form submission
+
   // Retrieve form data
   const transporterName = document.getElementById("transporterName").value;
   const contactNumber = document.getElementById("contactNumber").value;
@@ -273,8 +225,8 @@ document.getElementById("transporterForm").addEventListener("submit", function(e
   const vehicleType = document.getElementById("vehicleType").value;
   const route = document.getElementById("route").value;
   const charges = document.getElementById("charges").value;
-  
-  // Create an object to store the transporter details
+
+  // Create transporter object
   const transporterDetails = {
     transporterName,
     contactNumber,
@@ -283,35 +235,36 @@ document.getElementById("transporterForm").addEventListener("submit", function(e
     route,
     charges
   };
-  
-  // Retrieve existing transporters from localStorage or initialize as empty array
+
+  // Get existing transporters or initialize array
   let transporters = JSON.parse(localStorage.getItem("transporters")) || [];
-  
-  // Add new transporter to the array
+
+  // Push new transporter
   transporters.push(transporterDetails);
-  
-  // Save updated array back to localStorage
+
+  // Save updated list
   localStorage.setItem("transporters", JSON.stringify(transporters));
-  
+
   // Show success message
   document.getElementById("transporterSuccessMsg").textContent = "Transporter added successfully!";
-  
-  // Optionally, clear the form after submission
+
+  // Clear form
   document.getElementById("transporterForm").reset();
-  
-  // Update the Transport Partners tab (for example, by refreshing the list)
+
+  // Update display
   displayTransporters();
+
+  // Update transporter dropdown in delivery tab if it exists
+  updateTransporterDropdown();
 });
 
-// Function to display transporters from localStorage
+// Function to display transporters
 function displayTransporters() {
   const transporters = JSON.parse(localStorage.getItem("transporters")) || [];
   const transportersList = document.getElementById("transportersList");
-  
-  // Clear the current list before updating
+
   transportersList.innerHTML = "";
-  
-  // Loop through each transporter and create a list item
+
   transporters.forEach(transporter => {
     const transporterItem = document.createElement("div");
     transporterItem.classList.add("transporter-item");
@@ -327,11 +280,40 @@ function displayTransporters() {
   });
 }
 
-// Call displayTransporters on page load to show existing transporters
-window.onload = function() {
+// Optional: update the dropdown list in the delivery assignment section
+function updateTransporterDropdown() {
+  const transporterDropdown = document.getElementById("assignedTransporter");
+  const phoneField = document.getElementById("transporterPhone");
+
+  if (!transporterDropdown) return; // Dropdown not present on this page
+
+  // Empty dropdown and add placeholder
+  transporterDropdown.innerHTML = "<option value=''>Select Transporter</option>";
+
+  const transporters = JSON.parse(localStorage.getItem("transporters")) || [];
+
+  transporters.forEach(transporter => {
+    const option = document.createElement("option");
+    option.value = transporter.transporterName;
+    option.textContent = transporter.transporterName;
+    option.dataset.phone = transporter.contactNumber;  // Store phone number in data attribute
+    transporterDropdown.appendChild(option);
+  });
+
+  // Listener to update phone number field when transporter is selected
+  transporterDropdown.addEventListener("change", function () {
+    const selectedOption = transporterDropdown.selectedOptions[0];
+    phoneField.value = selectedOption.dataset.phone || "";
+  });
+}
+
+// Load transporters on page load
+window.onload = function () {
   displayTransporters();
+  updateTransporterDropdown();  // Useful if tabs are on the same page
 };
 </script>
+
 
 </body>
 </html>
